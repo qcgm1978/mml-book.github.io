@@ -10,6 +10,8 @@ class TDD_SYMBOLS_ABBREIVATIONS(unittest.TestCase):
         self.assertEqual(get_mean('SVM'),'Support vector machine')
         self.assertEqual(get_symbol_mean('a,b,c,α,β,γ'),'Scalars are lowercase')
         self.assertEqual(get_symbol_mean('Beta(α, β)'),'Beta distribution with parameters α, β')
+        self.assertEqual(get_symbol_mean('R'),'Real and complex numbers, respectively')
+        self.assertEqual(get_symbol_mean('RD'),'n-dimensional vector space of real numbers')
 if __name__ == '__main__':
     unittest.main()
                 

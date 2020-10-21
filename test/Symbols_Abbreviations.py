@@ -1,7 +1,8 @@
 import re
+import numpy as np
 # Table of Abbreviations and Acronyms
-Acronym='e.g. GMM i.e. i.i.d. MAP MLE ONB PCA PPCA REF SPD SVM'
-Meaning='''Exempli gratia(Latin: for example)
+Acronym = 'e.g. GMM i.e. i.i.d. MAP MLE ONB PCA PPCA REF SPD SVM'
+Meaning = '''Exempli gratia(Latin: for example)
 Gaussian mixture model
 Id est(Latin: this means)
 Independent, identically distributed 
@@ -79,7 +80,7 @@ N􏰁μ, Σ􏰂
 Ber(μ) 
 Bin(N, μ) 
 Beta(α, β)'''
-Typical_meaning='''Scalars are lowercase
+Typical_meaning = '''Scalars are lowercase
 Vectors are bold lowercase
 Matrices are bold uppercase
 Transpose of a vector or matrix
@@ -144,14 +145,32 @@ Gaussian distribution with mean μ and covariance Σ
 Bernoulli distribution with parameter μ
 Binomial distribution with parameters N, μ
 Beta distribution with parameters α, β'''
+
+
 def get_mean(acro):
     l_acro = re.split(r'\s+', Acronym)
     l_meaning = re.split(r'\n', Meaning)
-    ind = l_acro.index( acro)
+    ind = l_acro.index(acro)
     return l_meaning[ind]
+
+
 def get_symbol_mean(sym):
-    l_sym = re.split(r'\n', Symbol)
+    l_sym = np.array(re.split(r'\n', Symbol))
     l_meaning = re.split(r'\n', Typical_meaning)
-    print(len(l_sym),len(l_meaning))
-    ind = l_sym.index( sym)
+    try:
+        ind = np.where(l_sym == sym)[0][0]
+    except IndexError:
+        def f(x):
+            l = x.split(',')
+            return sym in l
+        try:
+            ind = indices(l_sym, f)[0]
+        except IndexError:
+            def f(x):
+                return x[0]==sym[0] and len(x)==len(sym)
+            ind = indices(l_sym, f)[0]
+
+    print(ind)
     return l_meaning[ind]
+def indices(l,filtr=lambda x: bool(x)):
+        return [i for i,x in enumerate(l) if filtr(x)]
