@@ -8,10 +8,15 @@ class TDD_SYMBOLS_ABBREIVATIONS(unittest.TestCase):
     def test_symbols_abbreivations(self):
         self.assertEqual(get_mean('e.g.'),'Exempli gratia(Latin: for example)')
         self.assertEqual(get_mean('SVM'),'Support vector machine')
+        self.assertEqual(get_mean('PCA'),'Principal component analysis')
         self.assertEqual(get_symbol_mean('a,b,c,α,β,γ'),'Scalars are lowercase')
         self.assertEqual(get_symbol_mean('Beta(α, β)'),'Beta distribution with parameters α, β')
         self.assertEqual(get_symbol_mean('R'),'Real and complex numbers, respectively')
+        self.assertEqual(get_symbol_mean('Rn'),'n-dimensional vector space of real numbers')
         self.assertEqual(get_symbol_mean('RD'),'n-dimensional vector space of real numbers')
+        self.assertEqual(get_symbol_mean('R3'),'n-dimensional vector space of real numbers')
+        self.assertEqual(get_symbol_mean('x'),'Vectors are bold lowercase')
+        self.assertEqual(get_symbol_mean('λ'),'Eigenvalue or Lagrange multiplier')
 if __name__ == '__main__':
     unittest.main()
                 

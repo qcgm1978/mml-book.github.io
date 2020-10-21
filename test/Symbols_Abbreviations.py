@@ -158,7 +158,7 @@ def get_symbol_mean(sym):
     l_sym = np.array(re.split(r'\n', Symbol))
     l_meaning = re.split(r'\n', Typical_meaning)
     try:
-        ind = np.where(l_sym == sym)[0][0]
+        ind = [i for i,item in enumerate(l_sym) if item.strip()==sym][0]
     except IndexError:
         def f(x):
             l = x.split(',')
