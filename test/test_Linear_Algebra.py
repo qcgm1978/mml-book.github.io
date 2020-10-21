@@ -20,6 +20,8 @@ class TDD_LINEAR_ALGEBRA(unittest.TestCase):
         Least_squares = s[0].astype(int)
         print(Least_squares)
         self.assertEqual(Least_squares.tolist(),[1,1,1])
+        s=l.lstsq([[4,4],[2,-4]],[5,1])[0].round(2)
+        self.assertEqual(s.tolist(),[1,1/4])
 if __name__ == '__main__':
     unittest.main()
                 
