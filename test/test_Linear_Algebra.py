@@ -76,6 +76,8 @@ class TDD_LINEAR_ALGEBRA(unittest.TestCase):
         self.assertEqual((Ab[1]).tolist(),np.negative(temp).tolist())
         Ab = Ab.astype(float)
         Ab[2] *= -1/3 # Multiplication of an equation, or row, with a constant. Divide row 2 by -1/3
+        Ab[:, 5][3] -= a + 1
+        self.assertEqual(Ab[3].tolist(),np.zeros(6).tolist())
     def test_vstack(self):
         np = numpy
         A = np.array([1, 2, 3])

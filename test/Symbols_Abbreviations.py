@@ -119,7 +119,7 @@ Span (generating set) of b1
 Trace of A
 Determinant of A
 Absolute value or determinant (depending on context)
-Norm; Euclidean, unless specified
+Norm; Euclidean unless specified
 Eigenvalue or Lagrange multiplier
 Eigenspace corresponding to eigenvalue λ
 Vectors x and y are orthogonal
@@ -172,9 +172,15 @@ def get_symbol_mean(sym):
                 ind = indices(l_sym, f)[0]
             except IndexError:
                 def f(x):
-                    return re.search(rf'{sym}',x)
-                ind = indices(l_sym, f)[0]
-
+                    return re.search(rf'{sym}', x)
+                try:
+                    ind = indices(l_sym, f)[0]
+                except IndexError:
+                    if re.search(r'\s', sym):
+                        sym = re.sub(r'\s', '', sym)
+                        return get_symbol_mean(sym)
+                    else:
+                        return 'not found'
 
     print(ind)
     return l_meaning[ind]

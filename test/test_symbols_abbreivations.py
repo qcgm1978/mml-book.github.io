@@ -5,7 +5,7 @@ class TDD_SYMBOLS_ABBREIVATIONS(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.foo = 1
-    def test_symbols_abbreivations(self):
+    def test_abbreivations(self):
         self.assertEqual(get_mean('e.g.'),'Exempli gratia(Latin: for example)')
         self.assertEqual(get_mean('SVM'),'Support vector machine')
         self.assertEqual(get_mean('PCA'), 'Principal component analysis')
@@ -24,6 +24,9 @@ class TDD_SYMBOLS_ABBREIVATIONS(unittest.TestCase):
         self.assertEqual(get_symbol_mean('A−1'),'Inverse of a matrix')
         self.assertEqual(get_symbol_mean('A⊤'),'Transpose of a vector or matrix')
         self.assertEqual(get_symbol_mean('=:'),'b is defined as a')
+        self.assertEqual(get_symbol_mean('Im'),'Identity matrix of size m × m')
+        self.assertEqual(get_symbol_mean('⇐⇒'),'If and only if')
+        self.assertEqual(get_symbol_mean('∥ · ∥'),'Norm; Euclidean unless specified')
 if __name__ == '__main__':
     unittest.main()
                 
