@@ -96,7 +96,7 @@ n-dimensional vector space of real numbers
 Universal quantifier: for all x
 Existential quantifier: there exists x
 aisdefinedasb
-bisdefinedasa
+b is defined as a
 a is proportional to b, i.e., a = constant · b
 Function composition: “g after f ”
 If and only if
@@ -167,8 +167,14 @@ def get_symbol_mean(sym):
             ind = indices(l_sym, f)[0]
         except IndexError:
             def f(x):
-                return x[0]==sym[0] and len(x)==len(sym)
-            ind = indices(l_sym, f)[0]
+                return x[0] == sym[0] and len(x) == len(sym)
+            try:
+                ind = indices(l_sym, f)[0]
+            except IndexError:
+                def f(x):
+                    return re.search(rf'{sym}',x)
+                ind = indices(l_sym, f)[0]
+
 
     print(ind)
     return l_meaning[ind]

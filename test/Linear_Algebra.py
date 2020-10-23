@@ -21,4 +21,7 @@ class Linear_Algebra(object):
             a=[a]
         return np.linalg.solve(a, b)
     def lstsq(self, a, b):
-        return np.linalg.lstsq(a,b, rcond=None)
+        return np.linalg.lstsq(a, b, rcond=None)
+    def dot(self, a, b):
+        return np.dot(a,b)
+    
