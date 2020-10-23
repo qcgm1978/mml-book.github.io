@@ -59,6 +59,23 @@ class TDD_LINEAR_ALGEBRA(unittest.TestCase):
         # Here column four is composed of col 1 and 2, and 4 is inverted.
         self.assertEqual(np.dot(A, lam * np.vstack([A[:, 3], 0, -1])).tolist(), [[0], [0]])
         self.assertEqual((np.dot(A,np.vstack([42,8,0,0])) + np.dot(A,lam*np.vstack([A[:,2],-1,0]))  + np.dot(A,lam*np.vstack([A[:,3],0,-1]))).tolist() ,[[42],[8]])
+        a = 50 # for any arbitrary value a in R
+        A = np.vstack([[-2,4,-2,-1,4],[4,-8,3,-3,1],[1,-2,1,-1,1],[1,-2,0,-3,4]])
+        l = [-3,2,0,a]
+        b = np.vstack(l)
+        Ab = np.hstack([A,b])
+        self.assertEqual((Ab[:, -1]).tolist(), l)
+        Ab[[0, 2]] = Ab[[2, 0]]  # Exchange of two equations. I.e. swap row 0 and 2.
+        Ab[3] -= Ab[0]  # Addition of two equation, or rows. Subtract row 0 from 3.
+        Ab[2] += 2 * Ab[0]  # Addition of two equation, or rows. Add 2 * row 0 to row 2.
+        Ab[1] -= 4*Ab[0] # Addition of two equation, or rows. Subtract 4 * row 0 to row 1
+        Ab[3] += -Ab[1] - Ab[2]  # Addition of two equation, or rows. Add -Row 1 - Row 2
+        temp=(Ab[1]).copy()
+        Ab[1] *= -1  # Multiplication of an equation, or row, with a constant. Invert row 1
+        print(temp)
+        self.assertEqual((Ab[1]).tolist(),np.negative(temp).tolist())
+        Ab = Ab.astype(float)
+        Ab[2] *= -1/3 # Multiplication of an equation, or row, with a constant. Divide row 2 by -1/3
     def test_vstack(self):
         np = numpy
         A = np.array([1, 2, 3])
