@@ -16,3 +16,6 @@ class Abelian_Theory_Group(object):
                 l[-1].append(item)
                 item += 1
         return l
+    # Negative positions are assumed to count from the end.
+    def Group_Elements(self):
+        pass

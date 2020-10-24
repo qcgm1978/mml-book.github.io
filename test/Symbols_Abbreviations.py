@@ -53,8 +53,9 @@ class Handle_Sym_Abbre(object):
                 return self.get_symbol_mean(sym)
             else:
                 return 'not found'
-        # print(ind)
         self.ind=ind
-        return l_meaning[ind]
+        meaning=l_meaning[ind]
+        print(ind,meaning)
+        return meaning
     def indices(self,l,filtr=lambda x: bool(x)):
         return [i for i,x in enumerate(l) if (filtr(x) if callable(filtr) else exec(filtr))]

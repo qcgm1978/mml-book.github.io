@@ -25,9 +25,10 @@ B = [b1,b2,b3]
 B = {b1,b2,b3} 
 Z
 N
-R,C
+R
+C
 Rn
-∀x
+\∀\w.*
 ∃x
 a:=b 
 a=:b 
@@ -80,7 +81,8 @@ Bin(N, μ)
 Beta(α, β)
 ⊗
 (Z, +)
-\(\w+\s+\,\s+\+\,\s+[+-·/]\)'''
+\(\w+\s+\,\s+\+\,\s+[+-·/]\)
+\\{number}'''
 Typical_meaning = '''Scalars are lowercase
 Vectors are bold lowercase
 Matrices are bold uppercase
@@ -92,8 +94,9 @@ Dot product of x and y
 Matrix of column vectors stacked horizontally
 Set of vectors (unordered)
 Integers
-natural numbers Or Number of data points; indexed by n = 1,...,N
-Real and complex numbers, respectively
+natural numbers Or Number of data points indexed by n = 1,...,N
+Real numbers
+Complex numbers
 n-dimensional vector space of real numbers
 Universal quantifier: for all x
 Existential quantifier: there exists x
@@ -148,4 +151,5 @@ Binomial distribution with parameters N, μ
 Beta distribution with parameters α, β
 an group operation
 sets with associated operations
-a set with two operations'''
+a set with two operations
+excluding number'''
