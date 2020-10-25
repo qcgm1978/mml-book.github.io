@@ -1,8 +1,8 @@
 import unittest
 import numpy as np
 # from utilities import getPath,parseNumber,update_json
-from .Abelian_Group import Abelian_Theory_Group
-from .Linear_Algebra import Linear_Algebra
+from test.Abelian_Group import Abelian_Theory_Group
+from test.Linear_Algebra import Linear_Algebra
 
 
 class TDD_GROUP_THEORY(unittest.TestCase):
@@ -54,8 +54,7 @@ class TDD_GROUP_THEORY(unittest.TestCase):
             power = 2
             r = np.random.uniform(2**-power-1,
                                   2**power-1, (m, n))
-            p = np.random.randint(2**-power-1, 2**power-1)
-            return (r ** 10 ** p).round()
+            return r
 
         def is_ele(ele):
             return ele.dtype == 'float64'
@@ -72,11 +71,12 @@ class TDD_GROUP_THEORY(unittest.TestCase):
                                   2**power-1, (m, n))
             return r
         power = 8
-        is_group = la.is_group(gen_ele, get_inv, is_ele, get_e, op, m=np.random.randint(2**-power-1,
-                                                                                                   2**power-1))
-        is_Abelian = la.is_group(gen_ele, get_inv, is_ele, get_e, op)
+        m=np.random.randint(2**-power-1,2**power-1)
+        is_group = la.is_group(gen_ele, get_inv, is_ele, get_e, op, m=m)
+        op=np.dot
+        is_Abelian = la.is_Abelian(gen_ele, get_inv, is_ele, get_e, op,m=m)
         self.assertTrue(is_group)
-        self.assertTrue(is_group)
+        self.assertFalse(is_Abelian)
 
 
 if __name__ == '__main__':

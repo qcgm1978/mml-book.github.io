@@ -33,18 +33,20 @@ class Linear_Algebra(object):
     def dot(self, a, b):
         return np.dot(a, b)
     def is_Abelian(self, gen_ele, get_inv, is_ele, get_e, op, m=1):
-        is_group=self.is_group(gen_ele, get_inv, is_ele, get_e, op, m=1)
+        n=m
+        is_group=self.is_group(gen_ele, get_inv, is_ele, get_e, op, m=m,n=n)
         x = gen_ele(n, m)
         y = gen_ele(n, m)
         is_commutative = ~((op(x,y) - op(y,x))).any()
         return is_group and is_commutative
-    def is_group(self, gen_ele, get_inv, is_ele, get_e, op, m=1):
+    def is_group(self, gen_ele, get_inv, is_ele, get_e, op, m=1,n=None):
         # 1. Closure of G under ⊗: ∀x, y∈G: x⊗y∈G
         # 2. Associativity:∀x,y,z∈G:(x⊗y)⊗z=x⊗(y⊗z)
         # 3. Neutral element: ∃e∈G ∀x∈G: x⊗e=x and e⊗x=x
         # 4. Inverse element:∀x∈G ∃y∈G: x⊗y=e and y⊗x=e
-        max_int64 = 9223372036854775807
-        n = np.random.randint(2, np.log2(max_int64))
+        if n is None:
+            max_int64 = 9223372036854775807
+            n = np.random.randint(2, np.log2(max_int64))
         x = gen_ele(n, m)
         y = gen_ele(n, m)
         z = gen_ele(n, m)
