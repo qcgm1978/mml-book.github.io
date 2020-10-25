@@ -32,7 +32,12 @@ class Linear_Algebra(object):
 
     def dot(self, a, b):
         return np.dot(a, b)
-
+    def is_Abelian(self, gen_ele, get_inv, is_ele, get_e, op, m=1):
+        is_group=self.is_group(gen_ele, get_inv, is_ele, get_e, op, m=1)
+        x = gen_ele(n, m)
+        y = gen_ele(n, m)
+        is_commutative = ~((op(x,y) - op(y,x))).any()
+        return is_group and is_commutative
     def is_group(self, gen_ele, get_inv, is_ele, get_e, op, m=1):
         # 1. Closure of G under ⊗: ∀x, y∈G: x⊗y∈G
         # 2. Associativity:∀x,y,z∈G:(x⊗y)⊗z=x⊗(y⊗z)
