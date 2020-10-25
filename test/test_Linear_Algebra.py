@@ -135,18 +135,7 @@ class TDD_LINEAR_ALGEBRA(unittest.TestCase):
         self.assertTrue((C).tolist() == transpose_mul.tolist() ==
                         [[9.6], [9.6], [9.6], [9.6]])
 
-    def test_Abelian(self):
-        # (Rn , +), (Zn , +), n ∈ N are Abelian if + is defined componentwise
-        # Inverse element:∀x∈G ∃y∈G : x⊗y=e and y⊗x=e,where e is
-        # the neutral element.
-        Rn = np.array([1, 2, 3])
-        e = np.zeros(len(Rn))
-        self.assertTrue((Rn+e).tolist() == (e+Rn).tolist() == Rn.tolist())
-        # (x1, · · · , xn)−1 := (−x1, · · · , −xn) is the inverse element
-        neg_Rn = e - Rn
-        self.assertEqual(neg_Rn.tolist(), [-1, -2, -3])
-        self.assertEqual((Rn+neg_Rn).tolist(),e.tolist())
-
+    
 
 if __name__ == '__main__':
     unittest.main()
