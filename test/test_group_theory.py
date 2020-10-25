@@ -27,10 +27,10 @@ class TDD_GROUP_THEORY(unittest.TestCase):
         self.assertEqual(neg_Rn.tolist(), [-1, -2, -3])
         self.assertEqual((Rn+neg_Rn).tolist(), e.tolist())
 
-        def gen_ele():
+        def gen_ele(n):
             power = 4
             r = np.random.randint(2**-power-1,
-                                  2**power-1, (1, 3))
+                                  2**power-1, (1, n))
             p = np.random.randint(2**-power-1, 2**power-1)
             return (r ** 10 ** p).round()
 
@@ -40,8 +40,27 @@ class TDD_GROUP_THEORY(unittest.TestCase):
         def is_ele(ele):
             return ele.dtype=='int64'
 
-        def get_e(Rn):
-            return np.zeros(len(Rn))
+        def get_e(Zn):
+            return np.zeros(len(Zn))
+        op = np.add
+        # (Rn , +), (Zn , +), n ∈ N are Abelian if + is defined componentwise
+        is_group = Linear_Algebra().is_group(gen_ele, get_inv, is_ele, get_e, op)
+        self.assertTrue(is_group)
+        def gen_ele(n):
+            power = 2
+            r = np.random.uniform(2**-power-1,
+                                  2**power-1, (1, n))
+            p = np.random.randint(2**-power-1, 2**power-1)
+            return (r ** 10 ** p).round()
+
+        def get_inv(x):
+            return - x
+
+        def is_ele(ele):
+            return ele.dtype=='float64'
+
+        def get_e(Zn):
+            return np.zeros(len(Zn))
         op = np.add
         # (Rn , +), (Zn , +), n ∈ N are Abelian if + is defined componentwise
         is_group = Linear_Algebra().is_group(gen_ele, get_inv, is_ele, get_e, op)
