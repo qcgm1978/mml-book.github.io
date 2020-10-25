@@ -27,10 +27,10 @@ class TDD_GROUP_THEORY(unittest.TestCase):
         self.assertEqual(neg_Rn.tolist(), [-1, -2, -3])
         self.assertEqual((Rn+neg_Rn).tolist(), e.tolist())
 
-        def gen_ele(n):
+        def gen_ele(n,m=1):
             power = 4
             r = np.random.randint(2**-power-1,
-                                  2**power-1, (1, n))
+                                  2**power-1, (m, n))
             p = np.random.randint(2**-power-1, 2**power-1)
             return (r ** 10 ** p).round()
 
@@ -41,29 +41,33 @@ class TDD_GROUP_THEORY(unittest.TestCase):
             return ele.dtype=='int64'
 
         def get_e(Zn):
-            return np.zeros(len(Zn))
+            return np.zeros(len(Zn[0]))
         op = np.add
         # (Rn , +), (Zn , +), n ∈ N are Abelian if + is defined componentwise
         is_group = Linear_Algebra().is_group(gen_ele, get_inv, is_ele, get_e, op)
         self.assertTrue(is_group)
-        def gen_ele(n):
+        def gen_ele(n,m=1):
             power = 2
             r = np.random.uniform(2**-power-1,
-                                  2**power-1, (1, n))
+                                  2**power-1, (m, n))
             p = np.random.randint(2**-power-1, 2**power-1)
             return (r ** 10 ** p).round()
 
-        def get_inv(x):
-            return - x
-
+       
         def is_ele(ele):
             return ele.dtype=='float64'
-
-        def get_e(Zn):
-            return np.zeros(len(Zn))
-        op = np.add
         # (Rn , +), (Zn , +), n ∈ N are Abelian if + is defined componentwise
         is_group = Linear_Algebra().is_group(gen_ele, get_inv, is_ele, get_e, op)
+        self.assertTrue(is_group)
+        # (Rm×n , +), the set of m × n-matrices is Abelian (with componentwise addition
+        def gen_ele(n,m=1):
+            power = 2
+            r = np.random.uniform(2**-power-1,
+                                  2**power-1, (m, n))
+            return r
+        power=8
+        is_group = Linear_Algebra().is_group(gen_ele, get_inv, is_ele, get_e, op,m=np.random.randint(2**-power-1,
+                                  2**power-1))
         self.assertTrue(is_group)
 
 
