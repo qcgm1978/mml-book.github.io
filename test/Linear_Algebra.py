@@ -32,31 +32,57 @@ class Linear_Algebra(object):
 
     def dot(self, a, b):
         return np.dot(a, b)
-    def is_Abelian(self, gen_ele, get_inv, is_ele, get_e, op, m=1):
-        n=m
-        is_group=self.is_group(gen_ele, get_inv, is_ele, get_e, op, m=m,n=n)
+
+    def is_Abelian(self, gen_ele, get_inv, is_ele, get_e, op, m=1,has_inverse=None):
+        n = m
+        is_group = self.is_group(gen_ele, get_inv, is_ele, get_e, op, m=m, n=n,has_inverse=None)
         x = gen_ele(n, m)
         y = gen_ele(n, m)
-        is_commutative = ~((op(x,y) - op(y,x))).any()
+        is_commutative = ~((op(x, y) - op(y, x))).any()
         return is_group and is_commutative
-    def is_group(self, gen_ele, get_inv, is_ele, get_e, op, m=1,n=None):
+
+    def get_limit(self):
+        max_int64 = 9223372036854775807
+        n = np.random.randint(2, np.log2(max_int64))
+        return n
+
+    def is_group(self, gen_ele, get_inv, is_ele, get_e, op, m=1, n=None,has_inverse=None):
         # 1. Closure of G under ⊗: ∀x, y∈G: x⊗y∈G
         # 2. Associativity:∀x,y,z∈G:(x⊗y)⊗z=x⊗(y⊗z)
         # 3. Neutral element: ∃e∈G ∀x∈G: x⊗e=x and e⊗x=x
         # 4. Inverse element:∀x∈G ∃y∈G: x⊗y=e and y⊗x=e
         if n is None:
-            max_int64 = 9223372036854775807
-            n = np.random.randint(2, np.log2(max_int64))
+            n = self.get_limit()
+        if has_inverse is None:
+            has_inverse=self.has_inverse
         x = gen_ele(n, m)
         y = gen_ele(n, m)
         z = gen_ele(n, m)
         inv = get_inv(x)
         e = get_e(x)
         is_closure = is_ele(op(x, y))
-        round1=np.array(list(map(lambda item:item.round(),op(op(x, y), z))))
-        round2=np.array(list(map(lambda item:item.round(),op(x,op(y,z)))))
+        round1 = np.array(
+            list(map(lambda item: item.round(), op(op(x, y), z))))
+        round2 = np.array(
+            list(map(lambda item: item.round(), op(x, op(y, z)))))
         is_associa = ~(round1 - round2).any()
-        has_neutral = ~(op(x, e) - x).any() and ~(op(e, x) - x).any()
-        has_inverse = ~(op(x, inv) - e).any() and ~(op(inv, x) - e).any()
+        has_neutral = self.has_inverse( x, e, x)
+        has_inverse = has_inverse( x, inv, e)
         meet_condition = is_closure and is_associa and has_neutral and has_inverse
         return meet_condition
+
+    def has_inverse(self, x, inv, e):
+        op=np.add
+        return ~(op(x, inv) - e).any() and ~(op(inv, x) - e).any()
+
+    def get_invtible(self, n=None):
+        if n is None:
+            n = self.get_limit()
+        m = np.random.uniform(-1, 1, (n, n))
+        d = np.dot(m, m.T)
+        return d
+
+    def is_invtible(self, m):
+        inv = np.linalg.inv(m)
+        d = np.dot(m, inv)
+        return np.allclose(d, np.eye(m.shape[0]))

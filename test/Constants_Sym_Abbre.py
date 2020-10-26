@@ -82,7 +82,8 @@ Beta(α, β)
 ⊗
 (Z, +)
 \(\w+\s+\,\s+\+\,\s+[+-·/]\)
-\\{number}'''
+\\{number}
+GL(n, R)'''
 Typical_meaning = '''Scalars are lowercase
 Vectors are bold lowercase
 Matrices are bold uppercase
@@ -152,4 +153,5 @@ Beta distribution with parameters α, β
 an group operation
 sets with associated operations
 a set with two operations
-excluding number'''
+excluding number
+general linear group'''

@@ -73,11 +73,21 @@ class TDD_GROUP_THEORY(unittest.TestCase):
         power = 8
         m=np.random.randint(2**-power-1,2**power-1)
         is_group = la.is_group(gen_ele, get_inv, is_ele, get_e, op, m=m)
-        op=np.dot
+        # If the inverse exists (A is regular), then A−1 is the inverse element of A ∈ Rn×n , and in exactly this case (Rn×n , ·) is a group, called the general linear group
+        op = np.dot
+        def get_e(x):
+            return np.eye(x.shape[0])
         is_Abelian = la.is_Abelian(gen_ele, get_inv, is_ele, get_e, op,m=m)
         self.assertTrue(is_group)
         self.assertFalse(is_Abelian)
-
+        inv = la.get_invtible()
+        self.assertTrue(la.is_invtible(inv))
+        def gen_ele(n, m=1):
+            mat=la.get_invtible(m)
+            return mat
+        # todo to optimization to reduce params and add general linear group check
+        # is_Abelian = la.is_Abelian(gen_ele, get_inv, is_ele, get_e, op,m=m,has_inverse=la.is_invtible)
+        # self.assertTrue(is_Abelian)
 
 if __name__ == '__main__':
     unittest.main()
