@@ -33,12 +33,12 @@ class TDD_SYMBOLS_ABBREIVATIONS(unittest.TestCase):
             'Z'), 'Integers')
         self.assertEqual(get_symbol_mean(
             'N'), 'natural numbers Or Number of data points indexed by n = 1,...,N')
+        self.assertEqual(get_symbol_mean('Rn'), 'n-dimensional vector space of real numbers, i.e. n-tuples as column vectors')
+        self.assertEqual(get_symbol_mean('Rn×1'), 'n-dimensional vector space of real numbers, i.e. n-tuples as column vectors')
         self.assertEqual(get_symbol_mean(
-            'Rn'), 'n-dimensional vector space of real numbers')
+            'RD'), 'n-dimensional vector space of real numbers, i.e. n-tuples as column vectors')
         self.assertEqual(get_symbol_mean(
-            'RD'), 'n-dimensional vector space of real numbers')
-        self.assertEqual(get_symbol_mean(
-            'R3'), 'n-dimensional vector space of real numbers')
+            'R3'), 'n-dimensional vector space of real numbers, i.e. n-tuples as column vectors')
         self.assertEqual(get_symbol_mean('x'), 'Vectors are bold lowercase')
         self.assertEqual(get_symbol_mean(
             'λ'), 'Eigenvalue or Lagrange multiplier')
@@ -74,6 +74,11 @@ class TDD_SYMBOLS_ABBREIVATIONS(unittest.TestCase):
         self.assertEqual(get_symbol_mean('(V , +, ·)'),'a set with two operations')
         self.assertEqual(get_symbol_mean('\\{0}'),'excluding number')
         self.assertEqual(get_symbol_mean('GL(n, R)'),'general linear group')
+        self.assertEqual(get_symbol_mean('G × G → G'),'sets G and inner|outer operations on G')
+        self.assertEqual(get_symbol_mean('V×V→V'),'sets G and inner|outer operations on G')
+        self.assertEqual(get_symbol_mean('R×V→V'),'sets G and inner|outer operations on G')
+        self.assertEqual(get_symbol_mean('∅'),'Empty set')
+        self.assertEqual(get_symbol_mean('U ⊆ V'),'a subspace U of V')
 
     def test_sym_properties(self):
         p = Handle_Sym_Abbre().get_sym_properties

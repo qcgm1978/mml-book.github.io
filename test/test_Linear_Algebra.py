@@ -56,8 +56,13 @@ class TDD_LINEAR_ALGEBRA(unittest.TestCase):
     def test_Systems_Linear_Equations2(self):
         A = np.matrix([[1, 0, 8, -4], [0, 1, 2, 12]])
         sol = np.vstack([42, 8])
-        self.assertEqual(
-            np.dot(A, np.vstack([42, 8, 0, 0])).tolist(), [[42], [8]])
+        self.assertFalse(~(sol-[42, 8]).any())
+        self.assertFalse(not np.any(sol-[42, 8]))
+        self.assertTrue(np.all(sol-[42, 8]) == 0)
+        f_o = np.vstack([42, 8, 0, 0])
+        self.assertTrue(np.all(f_o-[[42], [8], [0], [0]]) == 0)
+        self.assertTrue(all(np.dot(A, f_o) - [[42], [8]] == 0))
+        self.assertEqual(f_o.shape, (4, 1))
         # Here column three is composed of col 1 and 2, and 3 is inverted.
         lam = 51345  # arbitrary scalar used to show the infinity of solutions.
         self.assertEqual(
@@ -65,7 +70,7 @@ class TDD_LINEAR_ALGEBRA(unittest.TestCase):
         # Here column four is composed of col 1 and 2, and 4 is inverted.
         self.assertEqual(
             np.dot(A, lam * np.vstack([A[:, 3], 0, -1])).tolist(), [[0], [0]])
-        self.assertEqual((np.dot(A, np.vstack([42, 8, 0, 0])) + np.dot(A, lam*np.vstack(
+        self.assertEqual((np.dot(A, f_o) + np.dot(A, lam*np.vstack(
             [A[:, 2], -1, 0])) + np.dot(A, lam*np.vstack([A[:, 3], 0, -1]))).tolist(), [[42], [8]])
         a = 50  # for any arbitrary value a in R
         A = np.vstack([[-2, 4, -2, -1, 4], [4, -8, 3, -3, 1],
@@ -87,7 +92,6 @@ class TDD_LINEAR_ALGEBRA(unittest.TestCase):
         temp = (Ab[1]).copy()
         # Multiplication of an equation, or row, with a constant. Invert row 1
         Ab[1] *= -1
-        print(temp)
         self.assertEqual((Ab[1]).tolist(), np.negative(temp).tolist())
         Ab = Ab.astype(float)
         # Multiplication of an equation, or row, with a constant. Divide row 2 by -1/3
@@ -135,7 +139,6 @@ class TDD_LINEAR_ALGEBRA(unittest.TestCase):
         self.assertTrue((C).tolist() == transpose_mul.tolist() ==
                         [[9.6], [9.6], [9.6], [9.6]])
 
-    
 
 if __name__ == '__main__':
     unittest.main()

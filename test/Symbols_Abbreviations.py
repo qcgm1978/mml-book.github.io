@@ -50,7 +50,7 @@ class Handle_Sym_Abbre(object):
         if ind is None:
             if re.search(r'\s', sym):
                 sym = re.sub(r'\s', '', sym)
-                return self.get_symbol_mean(sym)
+                return self.get_symbol_meaning(sym)
             else:
                 return 'not found'
         self.ind=ind

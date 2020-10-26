@@ -27,7 +27,7 @@ Z
 N
 R
 C
-Rn
+R(.|n×1|1×n)
 \∀\w.*
 ∃x
 a:=b 
@@ -83,7 +83,9 @@ Beta(α, β)
 (Z, +)
 \(\w+\s+\,\s+\+\,\s+[+-·/]\)
 \\{number}
-GL(n, R)'''
+GL(n, R)
+\w\s*×\s*\w\s*→\w
+U ⊆ V'''
 Typical_meaning = '''Scalars are lowercase
 Vectors are bold lowercase
 Matrices are bold uppercase
@@ -98,7 +100,7 @@ Integers
 natural numbers Or Number of data points indexed by n = 1,...,N
 Real numbers
 Complex numbers
-n-dimensional vector space of real numbers
+n-dimensional vector space of real numbers, i.e. n-tuples as column vectors
 Universal quantifier: for all x
 Existential quantifier: there exists x
 aisdefinedasb
@@ -154,4 +156,6 @@ an group operation
 sets with associated operations
 a set with two operations
 excluding number
-general linear group'''
+general linear group
+sets G and inner|outer operations on G
+a subspace U of V'''
