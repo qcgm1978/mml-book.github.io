@@ -32,7 +32,28 @@ class Linear_Algebra(object):
 
     def dot(self, a, b):
         return np.dot(a, b)
-
+    def is_echelon(self, m):
+        ind = 0
+        cols=m.shape[1]
+        for index,row in enumerate(m):
+            zeros=0
+            for item in row.getA1():
+                if item:
+                    break
+                else:
+                    zeros+=1
+            if ind:
+                if zeros == cols:
+                    flowing=m[index+1:]
+                    return not flowing.size or all(flowing[flowing==0])
+                elif zeros == ind + 1:
+                    ind=zeros
+                    continue
+                else:
+                    return False
+            else:
+                ind = zeros
+        return True
     def is_Abelian(self, gen_ele, get_inv, is_ele, get_e, op, m=1,has_inverse=None):
         n = m
         is_group = self.is_group(gen_ele, get_inv, is_ele, get_e, op, m=m, n=n,has_inverse=None)

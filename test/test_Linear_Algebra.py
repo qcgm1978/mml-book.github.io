@@ -139,6 +139,13 @@ class TDD_LINEAR_ALGEBRA(unittest.TestCase):
         self.assertTrue((C).tolist() == transpose_mul.tolist() ==
                         [[9.6], [9.6], [9.6], [9.6]])
 
+    def test_echelon(self):
+        l = self.l
+        m = np.mat([[1, 2, 1, 1, 1],
+                    [0, 0, 1, 1, 3],
+                    [0, 0, 0, 1, 2],
+                    [0, 0, 0, 0, 0]])
+        self.assertTrue(l.is_echelon(m))
 
 if __name__ == '__main__':
     unittest.main()
