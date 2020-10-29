@@ -49,7 +49,8 @@ class TDD_SYMBOLS_ABBREIVATIONS(unittest.TestCase):
         self.assertEqual(get_symbol_mean('A−1'), 'Inverse of a matrix')
         self.assertEqual(get_symbol_mean(
             'A⊤'), 'Transpose of a vector or matrix')
-        self.assertEqual(get_symbol_mean('=:'), 'b is defined as a')
+        self.assertEqual(get_symbol_mean('a=:b'), 'b is defined as a')
+        self.assertEqual(get_symbol_mean('a:=b'), 'a is defined as b')
         self.assertEqual(get_symbol_mean(
             'Im'), 'Identity matrix of size m × m')
         self.assertEqual(get_symbol_mean('⇐⇒'), 'If and only if')
@@ -79,6 +80,21 @@ class TDD_SYMBOLS_ABBREIVATIONS(unittest.TestCase):
         self.assertEqual(get_symbol_mean('R×V→V'),'sets G and inner|outer operations on G')
         self.assertEqual(get_symbol_mean('∅'),'Empty set')
         self.assertEqual(get_symbol_mean('U ⊆ V'),'a subspace U of V')
+    def test_matrix(self):
+        get_symbol_mean = Handle_Sym_Abbre().get_symbol_meaning
+        self.assertEqual(get_symbol_mean('(1, n)-matrices '),'rows/columns; row/column vectors')
+        self.assertEqual(get_symbol_mean('(m, 1)-matrices'),'rows/columns; row/column vectors')
+        self.assertEqual(get_symbol_mean('Rm×n'),'the set of all real-valued (m, n)-matrices')
+        self.assertEqual(get_symbol_mean('R_n'),'indicate the nth Row')
+        self.assertEqual(get_symbol_mean('R_1'),'indicate the nth Row')
+        self.assertEqual(get_symbol_mean('A ∈ Rm×n'),'the set of all real-valued (m, n)-matrices')
+        self.assertEqual(get_symbol_mean('a ∈ Rmn'),'stacking all n columns of the matrix into a long vector')
+        self.assertEqual(get_symbol_mean('⟨x,y⟩'),'Inner product of x and y')
+        self.assertEqual(get_symbol_mean('a⊤b'),'the dot product between two vectors a, b')
+        self.assertEqual(get_symbol_mean('A · B'),'multiplication (explicitly showing “·”)')
+        self.assertEqual(get_symbol_mean('Rn×n'),'identity matrix i.e. the n × n-matrix containing 1 on the diagonal and 0 everywhere else')
+        self.assertEqual(get_symbol_mean('\rightsquigarrow'),'a transformation of the augmented matrix using elementary transformations')
+        self.assertEqual(get_symbol_mean('[A | b]'), 'The augmented matrix [A | b] compactly represents the system of linear equations Ax = b')
 
     def test_sym_properties(self):
         p = Handle_Sym_Abbre().get_sym_properties

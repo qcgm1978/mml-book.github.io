@@ -85,7 +85,16 @@ Beta(α, β)
 \\{number}
 GL(n, R)
 \w\s*×\s*\w\s*→\w
-U ⊆ V'''
+U ⊆ V
+\((1\,\s*n|m\,\s*1)\)\-matrices
+(A\s*∈\s*)?Rm×n
+a ∈ Rmn
+a⊤b
+A · B
+Rn×n
+\rightsquigarrow
+\[[A-Z]\s*\|\s*[a-z]\]
+R_(n|\d)'''
 Typical_meaning = '''Scalars are lowercase
 Vectors are bold lowercase
 Matrices are bold uppercase
@@ -103,7 +112,7 @@ Complex numbers
 n-dimensional vector space of real numbers, i.e. n-tuples as column vectors
 Universal quantifier: for all x
 Existential quantifier: there exists x
-aisdefinedasb
+a is defined as b
 b is defined as a
 a is proportional to b, i.e., a = constant · b
 Function composition: “g after f ”
@@ -158,4 +167,13 @@ a set with two operations
 excluding number
 general linear group
 sets G and inner|outer operations on G
-a subspace U of V'''
+a subspace U of V
+rows/columns; row/column vectors
+the set of all real-valued (m, n)-matrices
+stacking all n columns of the matrix into a long vector
+the dot product between two vectors a, b
+multiplication (explicitly showing “·”)
+identity matrix i.e. the n × n-matrix containing 1 on the diagonal and 0 everywhere else
+a transformation of the augmented matrix using elementary transformations
+The augmented matrix [A | b] compactly represents the system of linear equations Ax = b
+indicate the nth Row'''
