@@ -141,11 +141,12 @@ class TDD_LINEAR_ALGEBRA(unittest.TestCase):
 
     def test_echelon(self):
         l = self.l
-        m = np.mat([[1, 2, 1, 1, 1],
-                    [0, 0, 1, 1, 3],
-                    [0, 0, 0, 1, 2],
+        m = np.mat([[1, -2, 1, -1, 1],
+                    [0, 0, 1, -1, 3],
+                    [0, 0, 0, 1, -2],
                     [0, 0, 0, 0, 0]])
-        self.assertTrue(l.is_echelon(m))
+        self.assertEqual(l.is_echelon(m)[0],['x1','x3','x4'])
+        self.assertEqual(l.is_echelon(m)[1],['x2','x5'])
 
 if __name__ == '__main__':
     unittest.main()

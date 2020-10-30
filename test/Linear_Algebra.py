@@ -32,31 +32,51 @@ class Linear_Algebra(object):
 
     def dot(self, a, b):
         return np.dot(a, b)
+
     def is_echelon(self, m):
         ind = 0
-        cols=m.shape[1]
-        for index,row in enumerate(m):
-            zeros=0
-            for item in row.getA1():
+        cols = m.shape[1]
+        for index, row in enumerate(m):
+            zeros = 0
+            for i, item in enumerate(row.getA1()):
+
                 if item:
                     break
                 else:
-                    zeros+=1
+                    zeros += 1
             if ind:
                 if zeros == cols:
-                    flowing=m[index+1:]
-                    return not flowing.size or all(flowing[flowing==0])
+                    flowing = m[index+1:]
+                    if not flowing.size or all(flowing[flowing == 0]):
+                        return self.get_Basic(m)
+
                 elif zeros == ind + 1:
-                    ind=zeros
+                    ind = zeros
                     continue
                 else:
                     return False
             else:
                 ind = zeros
-        return True
-    def is_Abelian(self, gen_ele, get_inv, is_ele, get_e, op, m=1,has_inverse=None):
+        return self.get_Basic(m)
+
+    def get_Basic(self, m):
+        Basic =  []
+        Free = []
+        for index, row in enumerate(m):
+            for i, item in enumerate(row.getA1()):
+                v = 'x{0}'.format(i + 1)
+                if item in [-1, 0, 1]:
+                    if index+1==m.shape[0] and v not in Free:
+                        Basic.append(v)
+                else:
+                    if v not in Free:
+                        Free.append(v)
+        return Basic,Free
+
+    def is_Abelian(self, gen_ele, get_inv, is_ele, get_e, op, m=1, has_inverse=None):
         n = m
-        is_group = self.is_group(gen_ele, get_inv, is_ele, get_e, op, m=m, n=n,has_inverse=None)
+        is_group = self.is_group(
+            gen_ele, get_inv, is_ele, get_e, op, m=m, n=n, has_inverse=None)
         x = gen_ele(n, m)
         y = gen_ele(n, m)
         is_commutative = ~((op(x, y) - op(y, x))).any()
@@ -67,7 +87,7 @@ class Linear_Algebra(object):
         n = np.random.randint(2, np.log2(max_int64))
         return n
 
-    def is_group(self, gen_ele, get_inv, is_ele, get_e, op, m=1, n=None,has_inverse=None):
+    def is_group(self, gen_ele, get_inv, is_ele, get_e, op, m=1, n=None, has_inverse=None):
         # 1. Closure of G under ⊗: ∀x, y∈G: x⊗y∈G
         # 2. Associativity:∀x,y,z∈G:(x⊗y)⊗z=x⊗(y⊗z)
         # 3. Neutral element: ∃e∈G ∀x∈G: x⊗e=x and e⊗x=x
@@ -75,7 +95,7 @@ class Linear_Algebra(object):
         if n is None:
             n = self.get_limit()
         if has_inverse is None:
-            has_inverse=self.has_inverse
+            has_inverse = self.has_inverse
         x = gen_ele(n, m)
         y = gen_ele(n, m)
         z = gen_ele(n, m)
@@ -87,13 +107,13 @@ class Linear_Algebra(object):
         round2 = np.array(
             list(map(lambda item: item.round(), op(x, op(y, z)))))
         is_associa = ~(round1 - round2).any()
-        has_neutral = self.has_inverse( x, e, x)
-        has_inverse = has_inverse( x, inv, e)
+        has_neutral = self.has_inverse(x, e, x)
+        has_inverse = has_inverse(x, inv, e)
         meet_condition = is_closure and is_associa and has_neutral and has_inverse
         return meet_condition
 
     def has_inverse(self, x, inv, e):
-        op=np.add
+        op = np.add
         return ~(op(x, inv) - e).any() and ~(op(inv, x) - e).any()
 
     def get_invtible(self, n=None):
