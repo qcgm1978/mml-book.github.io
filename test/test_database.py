@@ -19,7 +19,9 @@ class TDD_TEST_MYSQL(unittest.TestCase):
         self.assertEqual(self.m.mycursor.rowcount, 1 if r else -1)
         val =  [(k, v) for k, v in noun.items()]
         r=self.m.executemany(val)
-        self.assertEqual(self.m.mycursor.rowcount, len(val) if r else -1)
+        self.assertEqual(self.m.mycursor.rowcount, len(val) if r else - 1)
+        f=self.m.where({'noun' :'Gaussian elimination'})
+        self.assertEqual(self.m.mycursor.fetchall()[0][1],'an algorithm that performs elementary transformations to bring a system of linear equations into reduced row-echelon form')
     def test_insert_id(self):
         sql = "INSERT INTO mml (noun, meaning) VALUES (%s, %s)"
         val = ("B=A⊤", "For A ∈ Rm×n the matrix B ∈ Rn×m with bij =aji iscalled the transpose of A")
