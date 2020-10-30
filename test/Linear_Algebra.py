@@ -58,8 +58,8 @@ class Linear_Algebra(object):
             else:
                 ind = zeros
         return self.get_Basic(m)
-
-    def get_Basic(self, m):
+    @staticmethod
+    def get_Basic(m):
         Basic =  []
         Free = []
         for index, row in enumerate(m):
@@ -73,7 +73,7 @@ class Linear_Algebra(object):
                         Free.append(v)
         return Basic,Free
 
-    def is_Abelian(self, gen_ele, get_inv, is_ele, get_e, op, m=1, has_inverse=None):
+    def is_Abelian(self, gen_ele, get_inv, is_ele, get_e, op, m=1):
         n = m
         is_group = self.is_group(
             gen_ele, get_inv, is_ele, get_e, op, m=m, n=n, has_inverse=None)
