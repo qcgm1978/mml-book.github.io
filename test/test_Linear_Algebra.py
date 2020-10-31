@@ -145,8 +145,16 @@ class TDD_LINEAR_ALGEBRA(unittest.TestCase):
                     [0, 0, 1, -1, 3],
                     [0, 0, 0, 1, -2],
                     [0, 0, 0, 0, 0]])
-        self.assertEqual(l.is_echelon(m)[0],['x1','x3','x4'])
-        self.assertEqual(l.is_echelon(m)[1],['x2','x5'])
+        self.assertEqual(l.is_echelon(m)[0], ['x1', 'x3', 'x4'])
+        self.assertEqual(l.is_echelon(m)[1], ['x2', 'x5'])
+        
+        A = [[1, 3, 0, 0, 3],
+             [0, 0, 1, 0, 9],
+             [0, 0, 0, 1, 4]]
+        self.assertEqual(l.is_echelon(A)[0], ['x1', 'x3', 'x4'])
+        self.assertEqual(l.is_echelon(A)[1], ['x2', 'x5'])
+        self.assertTrue(l.is_reduced_echelon(A))
+
 
 if __name__ == '__main__':
     unittest.main()

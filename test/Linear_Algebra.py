@@ -1,4 +1,4 @@
-import sys
+import sys,re
 import numpy as np
 
 
@@ -32,8 +32,24 @@ class Linear_Algebra(object):
 
     def dot(self, a, b):
         return np.dot(a, b)
-
+    # It is in row-echelon form.
+    # Every pivot is 1.
+    # The pivot is the only nonzero entry in its column.
+    def is_reduced_echelon(self, m):
+        m=np.mat(m)
+        echelon = self.is_echelon(m)
+        if echelon:
+            basic = map(lambda item: re.search(r'\d+$', item).group(), echelon[0])
+            for item in basic:
+                col = m[:,int(item) - 1]
+                length=len(col[col!=0])
+                if length > 1:
+                    return False
+            return True
+        else:
+            return False
     def is_echelon(self, m):
+        m=np.mat(m)
         ind = 0
         cols = m.shape[1]
         for index, row in enumerate(m):

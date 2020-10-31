@@ -34,6 +34,7 @@ class TDD_SYMBOLS_ABBREIVATIONS(unittest.TestCase):
         self.assertEqual(get_symbol_mean(
             'N'), 'natural numbers Or Number of data points indexed by n = 1,...,N')
         self.assertEqual(get_symbol_mean('Rn'), 'n-dimensional vector space of real numbers, i.e. n-tuples as column vectors')
+        self.assertEqual(get_symbol_mean('R5'), 'n-dimensional vector space of real numbers, i.e. n-tuples as column vectors')
         self.assertEqual(get_symbol_mean('Rn×1'), 'n-dimensional vector space of real numbers, i.e. n-tuples as column vectors')
         self.assertEqual(get_symbol_mean(
             'RD'), 'n-dimensional vector space of real numbers, i.e. n-tuples as column vectors')
