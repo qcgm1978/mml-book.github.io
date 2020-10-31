@@ -145,16 +145,19 @@ class TDD_LINEAR_ALGEBRA(unittest.TestCase):
                     [0, 0, 1, -1, 3],
                     [0, 0, 0, 1, -2],
                     [0, 0, 0, 0, 0]])
-        self.assertEqual(l.is_echelon(m)[0], ['x1', 'x3', 'x4'])
-        self.assertEqual(l.is_echelon(m)[1], ['x2', 'x5'])
-        
+        self.assertEqual(l.get_basic_free(m)[0], ['x1', 'x3', 'x4'])
+        self.assertEqual(l.get_basic_free(m)[1], ['x2', 'x5'])
+
         A = [[1, 3, 0, 0, 3],
              [0, 0, 1, 0, 9],
-             [0, 0, 0, 1, 4]]
-        self.assertEqual(l.is_echelon(A)[0], ['x1', 'x3', 'x4'])
-        self.assertEqual(l.is_echelon(A)[1], ['x2', 'x5'])
+             [0, 0, 0, 1, -4]]
+        self.assertEqual(l.get_basic_free(A)[0], ['x1', 'x3', 'x4'])
+        self.assertEqual(l.get_basic_free(A)[1], ['x2', 'x5'])
         self.assertTrue(l.is_reduced_echelon(A))
-
+        sol,latex = l.get_solutions(A)
+        self.assertEqual(sol.tolist(), np.vstack(
+            [[3, -1, 0, 0, 0], [3, 0, 9, -4, -1]]).tolist())
+        self.assertEqual(latex,r'''$\left\{\boldsymbol{x} \in \mathbb{R}^{5}: \boldsymbol{x}=\lambda_{1}\left[\begin{array}{c}3 \\ -1 \\ 0 \\ 0 \\ 0\end{array}\right]+\lambda_{2}\left[\begin{array}{c}3 \\ 0 \\ 9 \\ -4 \\ -1\end{array}\right], \quad \lambda_{1}, \lambda_{2} \in \mathbb{R}\right\}$''')
 
 if __name__ == '__main__':
     unittest.main()

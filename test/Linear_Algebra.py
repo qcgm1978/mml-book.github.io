@@ -1,4 +1,5 @@
-import sys,re
+import sys
+import re
 import numpy as np
 
 
@@ -32,24 +33,59 @@ class Linear_Algebra(object):
 
     def dot(self, a, b):
         return np.dot(a, b)
+
+    def get_solutions(self, m):
+        mat = np.mat(m)
+        basic, free = self.get_basic_free(m)
+        ind_free = list(map(lambda item: int(
+            re.search(r'\d+$', item).group()) - 1, free))
+        sol = np.zeros((len(ind_free), mat.shape[1]), dtype=np.int8)
+        for index, item in enumerate(ind_free):
+            col = mat[:, item].getA1()
+            row_free = [i for i, it in enumerate(col) if it not in [1, 0]]
+            for row in row_free:
+                for ind in range(item-1, -1, -1):
+                    if mat[row, ind] == 1:
+                        sol[index, ind] = mat[row, item]
+                        sol[index, item] = -1
+                        break
+        latex = self.get_latex(sol)
+        return sol, latex
+
+    def get_latex(self, sol):
+        pre = r'''$\left\{{\boldsymbol{{x}} \in \mathbb{{R}}^{{{0}}}: \boldsymbol{{x}}='''.format(sol.shape[1])
+        post = r''' \in \mathbb{R}\right\}$'''
+        lam = [r'''\lambda_{{{0}}}'''.format(item + 1) for item in range(sol.shape[0])]
+        lams=', '.join(lam)
+        eles = r''', \quad '''+lams
+        s = [r'''\lambda_{{{0}}}\left[\begin{{array}}{{c}}{1}\end{{array}}\right]'''.format(
+            index+1, r' \\ '.join(item.astype(str))) for index, item in enumerate(sol)]
+        vectors = '+'.join(s)
+        cols = vectors+eles
+        latex = pre+cols+post
+        print(latex)
+        return latex
     # It is in row-echelon form.
     # Every pivot is 1.
     # The pivot is the only nonzero entry in its column.
+
     def is_reduced_echelon(self, m):
-        m=np.mat(m)
-        echelon = self.is_echelon(m)
+        m = np.mat(m)
+        echelon = self.get_basic_free(m)
         if echelon:
-            basic = map(lambda item: re.search(r'\d+$', item).group(), echelon[0])
+            basic = map(lambda item: re.search(
+                r'\d+$', item).group(), echelon[0])
             for item in basic:
-                col = m[:,int(item) - 1]
-                length=len(col[col!=0])
+                col = m[:, int(item) - 1]
+                length = len(col[col != 0])
                 if length > 1:
                     return False
             return True
         else:
             return False
-    def is_echelon(self, m):
-        m=np.mat(m)
+
+    def get_basic_free(self, m):
+        m = np.mat(m)
         ind = 0
         cols = m.shape[1]
         for index, row in enumerate(m):
@@ -74,20 +110,21 @@ class Linear_Algebra(object):
             else:
                 ind = zeros
         return self.get_Basic(m)
+
     @staticmethod
     def get_Basic(m):
-        Basic =  []
+        Basic = []
         Free = []
         for index, row in enumerate(m):
             for i, item in enumerate(row.getA1()):
                 v = 'x{0}'.format(i + 1)
                 if item in [-1, 0, 1]:
-                    if index+1==m.shape[0] and v not in Free:
+                    if index+1 == m.shape[0] and v not in Free:
                         Basic.append(v)
                 else:
                     if v not in Free:
                         Free.append(v)
-        return Basic,Free
+        return Basic, Free
 
     def is_Abelian(self, gen_ele, get_inv, is_ele, get_e, op, m=1):
         n = m
