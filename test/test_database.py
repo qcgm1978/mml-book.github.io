@@ -1,6 +1,6 @@
 import unittest,mysql
-from test.mysql_op import MysqlOp
-from test.definitions import noun
+from module.mysql_op import MysqlOp
+from module.definitions import noun
 class TDD_TEST_MYSQL(unittest.TestCase):
     def setUp(self):
         self.m = MysqlOp('mml',{'noun': 'VARCHAR(255)', 'meaning': 'VARCHAR(510)'})

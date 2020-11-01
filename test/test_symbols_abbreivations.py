@@ -1,6 +1,6 @@
 import unittest
 # from utilities import getPath,parseNumber,update_json
-from .Symbols_Abbreviations import *
+from module.Symbols_Abbreviations import *
 
 
 class TDD_SYMBOLS_ABBREIVATIONS(unittest.TestCase):

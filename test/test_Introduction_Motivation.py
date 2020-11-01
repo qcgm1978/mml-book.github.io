@@ -1,6 +1,6 @@
 import unittest,re
 # from utilities import getPath,parseNumber,update_json
-from .Introduction_Motivation import IntroMotiv
+from module.Introduction_Motivation import IntroMotiv
 class TDD_INTRODUCTION_MOTIVATION(unittest.TestCase):
     @classmethod
     def setUpClass(cls):

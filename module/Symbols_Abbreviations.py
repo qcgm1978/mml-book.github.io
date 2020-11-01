@@ -1,6 +1,6 @@
 import re
 import numpy as np
-from test.Constants_Sym_Abbre import Acronym, Meaning, Symbol, Typical_meaning
+from module.Constants_Sym_Abbre import Acronym, Meaning, Symbol, Typical_meaning
 class Handle_Sym_Abbre(object):
     Acronym, Meaning, Symbol, Typical_meaning=Acronym, Meaning, Symbol, Typical_meaning
     l_sym = np.array(re.split(r'\n', Symbol))

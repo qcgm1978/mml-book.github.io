@@ -1,4 +1,4 @@
-from .Linear_Algebra import Linear_Algebra
+from module.Linear_Algebra import Linear_Algebra
 import unittest
 import numpy
 np = numpy

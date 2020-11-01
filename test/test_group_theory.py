@@ -1,8 +1,8 @@
 import unittest
 import numpy as np
 # from utilities import getPath,parseNumber,update_json
-from test.Abelian_Group import Abelian_Theory_Group
-from test.Linear_Algebra import Linear_Algebra
+from module.Abelian_Group import Abelian_Theory_Group
+from module.Linear_Algebra import Linear_Algebra
 
 
 class TDD_GROUP_THEORY(unittest.TestCase):
