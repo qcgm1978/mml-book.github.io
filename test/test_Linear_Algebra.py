@@ -112,8 +112,14 @@ class TDD_LINEAR_ALGEBRA(unittest.TestCase):
 0 0 0 1 􀀀2 1
 0 0 0 0 0 a + 1 '''
         m = self.l.convert_s(s)
-        self.assertEqual(m,[[1,-2,1,-1,1,0],[0,0,1,-1,3,-2],[0,0,0,1,-2,1],[0,0,0,0,0,'a+1']])
+        self.assertEqual(m, [[1, -2, 1, -1, 1, 0], [0, 0, 1, -1, 3, -2], [0, 0, 0, 1, -2, 1], [0, 0, 0, 0, 0, 'a+1']])
+        self.assertTrue(self.l.is_REF(s,is_augumented=True))
         sol, lat = self.l.get_solutions(s, is_augumented=True)
+        s='''􀀀2 4 􀀀2 􀀀1 4 􀀀3
+4 􀀀8 3 􀀀3 1 2
+1 􀀀2 1 􀀀1 1 0
+1 􀀀2 0 􀀀3 4 a'''
+        self.assertFalse(self.l.is_REF(s,is_augumented=True))
         print(sol)
         # self.assertEqual(sol, [[2,0,-1,1,0],[[2,1,0,0,0],[2,0,-1,2,1]]])
 

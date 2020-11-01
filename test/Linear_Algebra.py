@@ -52,7 +52,11 @@ class Linear_Algebra(object):
                 elif it == '+' or pre_it == '+':
                     continue
                 else:
-                    ret[-1].append(int(it))
+                    try:
+                        ele = int(it)
+                    except ValueError:
+                        ele=it
+                    ret[-1].append(ele)
         print(ret)
         return ret
     def get_REF(self, augmented_m):
@@ -113,10 +117,16 @@ class Linear_Algebra(object):
             return True
         else:
             return False
-
-    def is_REF(self, m):
+    # All rows that contain only zeros are at the bottom of the matrix
+    # the first nonzero number from the left (also called the pivot or the leading coefficient) is always strictly to the right of the pivot of the row above it
+    def is_REF(self, m, is_augumented=False):
+        if isinstance(m, str):
+            m=self.convert_s(m)
         m = np.mat(m)
-        ind = 0
+        if is_augumented:
+            m = m[:,:-1]
+        m=m.astype(np.int8)
+        ind = -1
         cols = m.shape[1]
         for index, row in enumerate(m):
             zeros = 0
@@ -125,21 +135,18 @@ class Linear_Algebra(object):
                 if item:
                     break
                 zeros += 1
-            if ind:
-                if zeros == cols:
-                    following = m[index+1:]
-                    if not following.size or all(following[following == 0]):
-                        return True
+            if zeros == cols:
+                following = m[index+1:]
+                if not following.size or all(following[following == 0]):
+                    return True
 
-                elif zeros == ind + 1:
-                    ind = zeros
-                    continue
-                else:
-                    return False
-            else:
+            elif zeros >= ind + 1 :
                 ind = zeros
+                continue
+            else:
+                return False
         return True
-
+    
     @staticmethod
     def get_Basic_Free(m):
         m=np.mat(m)
