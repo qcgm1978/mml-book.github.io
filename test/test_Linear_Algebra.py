@@ -53,7 +53,7 @@ class TDD_LINEAR_ALGEBRA(unittest.TestCase):
         self.assertEqual((temp0 + temp1).tolist(),
                          np.dot(phi + lam, C).tolist())
 
-    def test_Systems_Linear_Equations2(self):
+    def test_Gaussian_Elimination(self):
         A = np.matrix([[1, 0, 8, -4], [0, 1, 2, 12]])
         sol = np.vstack([42, 8])
         self.assertFalse(~(sol-[42, 8]).any())
@@ -73,8 +73,13 @@ class TDD_LINEAR_ALGEBRA(unittest.TestCase):
         self.assertEqual((np.dot(A, f_o) + np.dot(A, lam*np.vstack(
             [A[:, 2], -1, 0])) + np.dot(A, lam*np.vstack([A[:, 3], 0, -1]))).tolist(), [[42], [8]])
         a = 50  # for any arbitrary value a in R
-        A = np.vstack([[-2, 4, -2, -1, 4], [4, -8, 3, -3, 1],
-                       [1, -2, 1, -1, 1], [1, -2, 0, -3, 4]])
+        l_4 = [
+            [-2, 4, -2, -1, 4],
+            [4, -8, 3, -3, 1],
+            [1, -2, 1, -1, 1],
+            [1, -2, 0, -3, 4]
+        ]
+        A = np.vstack(l_4)
         l = [-3, 2, 0, a]
         b = np.vstack(l)
         Ab = np.hstack([A, b])
@@ -98,6 +103,19 @@ class TDD_LINEAR_ALGEBRA(unittest.TestCase):
         Ab[2] *= -1/3
         Ab[:, 5][3] -= a + 1
         self.assertEqual(Ab[3].tolist(), np.zeros(6).tolist())
+        self.assertEqual(A.tolist(), l_4)
+        self.assertEqual(A.tolist(), np.mat(l_4).tolist())
+        self.assertEqual(A.tolist(), np.array(l_4).tolist())
+    def test_REF(self):
+        s='''1 􀀀2 1 􀀀1 1 0
+0 0 1 􀀀1 3 􀀀2
+0 0 0 1 􀀀2 1
+0 0 0 0 0 a + 1 '''
+        m = self.l.convert_s(s)
+        self.assertEqual(m,[[1,-2,1,-1,1,0],[0,0,1,-1,3,-2],[0,0,0,1,-2,1],[0,0,0,0,0,'a+1']])
+        sol, lat = self.l.get_solutions(s, is_augumented=True)
+        print(sol)
+        # self.assertEqual(sol, [[2,0,-1,1,0],[[2,1,0,0,0],[2,0,-1,2,1]]])
 
     def test_vstack(self):
         np = numpy
@@ -145,19 +163,22 @@ class TDD_LINEAR_ALGEBRA(unittest.TestCase):
                     [0, 0, 1, -1, 3],
                     [0, 0, 0, 1, -2],
                     [0, 0, 0, 0, 0]])
-        self.assertEqual(l.get_basic_free(m)[0], ['x1', 'x3', 'x4'])
-        self.assertEqual(l.get_basic_free(m)[1], ['x2', 'x5'])
+        self.assertTrue(l.is_REF(m))
+        self.assertEqual(l.get_Basic_Free(m)[0], ['x1', 'x3', 'x4'])
+        self.assertEqual(l.get_Basic_Free(m)[1], ['x2', 'x5'])
 
         A = [[1, 3, 0, 0, 3],
              [0, 0, 1, 0, 9],
              [0, 0, 0, 1, -4]]
-        self.assertEqual(l.get_basic_free(A)[0], ['x1', 'x3', 'x4'])
-        self.assertEqual(l.get_basic_free(A)[1], ['x2', 'x5'])
+        self.assertEqual(l.get_Basic_Free(A)[0], ['x1', 'x3', 'x4'])
+        self.assertEqual(l.get_Basic_Free(A)[1], ['x2', 'x5'])
         self.assertTrue(l.is_reduced_echelon(A))
-        sol,latex = l.get_solutions(A)
+        sol, latex = l.get_solutions(A)
         self.assertEqual(sol.tolist(), np.vstack(
             [[3, -1, 0, 0, 0], [3, 0, 9, -4, -1]]).tolist())
-        self.assertEqual(latex,r'''$\left\{\boldsymbol{x} \in \mathbb{R}^{5}: \boldsymbol{x}=\lambda_{1}\left[\begin{array}{c}3 \\ -1 \\ 0 \\ 0 \\ 0\end{array}\right]+\lambda_{2}\left[\begin{array}{c}3 \\ 0 \\ 9 \\ -4 \\ -1\end{array}\right], \quad \lambda_{1}, \lambda_{2} \in \mathbb{R}\right\}$''')
+        self.assertEqual(
+            latex, r'''$\left\{\boldsymbol{x} \in \mathbb{R}^{5}: \boldsymbol{x}=\lambda_{1}\left[\begin{array}{c}3 \\ -1 \\ 0 \\ 0 \\ 0\end{array}\right]+\lambda_{2}\left[\begin{array}{c}3 \\ 0 \\ 9 \\ -4 \\ -1\end{array}\right], \quad \lambda_{1}, \lambda_{2} \in \mathbb{R}\right\}$''')
+
 
 if __name__ == '__main__':
     unittest.main()

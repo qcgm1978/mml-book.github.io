@@ -33,20 +33,50 @@ class Linear_Algebra(object):
 
     def dot(self, a, b):
         return np.dot(a, b)
-
-    def get_solutions(self, m):
-        mat = np.mat(m)
-        basic, free = self.get_basic_free(m)
+    def convert_s(self, s):
+        s = re.sub(r'􀀀', '-', s)
+        s = re.split(r'\n', s.strip())
+        ret=[]
+        for index,item in enumerate(s):
+            ret.append([])
+            l = re.split(r'\s+', item)
+            cols=len(l)
+            for ind, it in enumerate(l):
+                next_it=pre_it=None
+                if ind<cols-1:
+                    next_it=l[ind + 1]
+                if ind:
+                    pre_it=l[ind - 1]
+                if next_it == '+':
+                    ret[-1].append(it + next_it + l[ind + 2])
+                elif it == '+' or pre_it == '+':
+                    continue
+                else:
+                    ret[-1].append(int(it))
+        print(ret)
+        return ret
+    def get_REF(self, augmented_m):
+        if isinstance(augmented_m, str):
+            augmented_m=self.convert_s(augmented_m)
+        return augmented_m
+    def get_solutions(self, m,is_augumented=False):
+        if isinstance(m, str):
+            m = self.convert_s(m)
+        m=np.mat(m)
+        if is_augumented:
+            m = m[:,:-1]
+        m=m.astype(np.int8)
+        basic, free = self.get_Basic_Free(m)
         ind_free = list(map(lambda item: int(
             re.search(r'\d+$', item).group()) - 1, free))
-        sol = np.zeros((len(ind_free), mat.shape[1]), dtype=np.int8)
+        sol = np.zeros((len(ind_free), m.shape[1]), dtype=np.int8)
         for index, item in enumerate(ind_free):
-            col = mat[:, item].getA1()
+            col = m[:, item].getA1()
             row_free = [i for i, it in enumerate(col) if it not in [1, 0]]
             for row in row_free:
                 for ind in range(item-1, -1, -1):
-                    if mat[row, ind] == 1:
-                        sol[index, ind] = mat[row, item]
+                    if m[row, ind] == 1:
+                        sol[index, ind] = m[row, item]
                         sol[index, item] = -1
                         break
         latex = self.get_latex(sol)
@@ -71,7 +101,7 @@ class Linear_Algebra(object):
 
     def is_reduced_echelon(self, m):
         m = np.mat(m)
-        echelon = self.get_basic_free(m)
+        echelon = self.get_Basic_Free(m)
         if echelon:
             basic = map(lambda item: re.search(
                 r'\d+$', item).group(), echelon[0])
@@ -84,23 +114,22 @@ class Linear_Algebra(object):
         else:
             return False
 
-    def get_basic_free(self, m):
+    def is_REF(self, m):
         m = np.mat(m)
         ind = 0
         cols = m.shape[1]
         for index, row in enumerate(m):
             zeros = 0
-            for i, item in enumerate(row.getA1()):
+            for item in row.getA1():
 
                 if item:
                     break
-                else:
-                    zeros += 1
+                zeros += 1
             if ind:
                 if zeros == cols:
-                    flowing = m[index+1:]
-                    if not flowing.size or all(flowing[flowing == 0]):
-                        return self.get_Basic(m)
+                    following = m[index+1:]
+                    if not following.size or all(following[following == 0]):
+                        return True
 
                 elif zeros == ind + 1:
                     ind = zeros
@@ -109,10 +138,11 @@ class Linear_Algebra(object):
                     return False
             else:
                 ind = zeros
-        return self.get_Basic(m)
+        return True
 
     @staticmethod
-    def get_Basic(m):
+    def get_Basic_Free(m):
+        m=np.mat(m)
         Basic = []
         Free = []
         for index, row in enumerate(m):
