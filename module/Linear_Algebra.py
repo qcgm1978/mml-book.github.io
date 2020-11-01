@@ -146,20 +146,29 @@ class Linear_Algebra(object):
             else:
                 return False
         return True
-    
-    @staticmethod
-    def get_Basic_Free(m):
+    # The variables corresponding to the pivots in the row-echelon form are called basic variables and the other variables are free variables
+    def get_Basic_Free(self,m):
+        if isinstance(m, str):
+            m=self.convert_s(m)
         m=np.mat(m)
         Basic = []
         Free = []
         for index, row in enumerate(m):
+            is_last = index + 1 == m.shape[0]
+            ini=True
             for i, item in enumerate(row.getA1()):
                 v = 'x{0}'.format(i + 1)
-                if item in [-1, 0, 1]:
-                    if index+1 == m.shape[0] and v not in Free:
+                if item :
+                    if v not in Basic and ini:
                         Basic.append(v)
+                        ini=False
+                        if not is_last:
+                            break
+                    elif is_last and v not in Free:
+
+                        Free.append(v)
                 else:
-                    if v not in Free:
+                    if is_last and v not in Basic:
                         Free.append(v)
         return Basic, Free
 
