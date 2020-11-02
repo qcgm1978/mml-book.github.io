@@ -15,7 +15,7 @@ class TDD_LINEAR_INDEPENDENCE(unittest.TestCase):
 0 0 2 '''
         self.assertTrue(v.is_REF(s))
         self.assertEqual(v.get_Basic_Free(s)[0],['x1','x3'])
-        self.assertEqual(v.get_Basic_Free(s)[1],['x2'])
-        self.assertEqual(v.get_linear_combination(s),[(1,2)])
+        self.assertEqual(v.get_Basic_Free(s)[1], ['x2'])
+        self.assertEqual(v.get_linear_combination(s),[(1,2,3,'The 2 column is a non-pivot column because it is 3.0 times the 1 column')])
 if __name__ == '__main__':
     unittest.main()

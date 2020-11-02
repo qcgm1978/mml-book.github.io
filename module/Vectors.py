@@ -5,12 +5,18 @@ from module.Linear_Algebra import Linear_Algebra
 class Vectors(Linear_Algebra):
     # The non-pivot columns can be expressed as linear combinations of the pivot columns on their left.
     def get_linear_combination(self, m):
-        B, F = self.get_Basic_Free(m)
+        B, F,m = self.get_Basic_Free(m)
         ret=[]
         for b, f in zip(B, F):
-            i_b=re.search(r'\d+$',b).group()
-            i_f=re.search(r'\d+$',f).group()
-            ret.append((int(i_b), int(i_f)))
+            i_b=int(re.search(r'\d+$',b).group())
+            i_f=int(re.search(r'\d+$',f).group())
+            eles_f=m[:,i_f-1]
+            ele_f = eles_f[eles_f != 0]
+            eles_b=m[:,i_b-1]
+            ele_b = eles_b[eles_b != 0]
+            e=(i_b,i_f,(ele_f/ele_b).item(0))
+            s='The {1} column is a non-pivot column because it is {2} times the {0} column'.format(*e)
+            ret.append((*e,s))
         return ret
     # https://www.mathsisfun.com/algebra/trig-solving-sas-triangles.html
     # "SAS" is when we know two sides and the angle between them.

@@ -170,7 +170,7 @@ class Linear_Algebra(object):
                 else:
                     if is_last and v not in Basic:
                         Free.append(v)
-        return Basic, Free
+        return Basic, Free,m
 
     def is_Abelian(self, gen_ele, get_inv, is_ele, get_e, op, m=1):
         n = m
