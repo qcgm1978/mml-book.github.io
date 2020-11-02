@@ -96,7 +96,11 @@ class TDD_SYMBOLS_ABBREIVATIONS(unittest.TestCase):
         self.assertEqual(get_symbol_mean('Rn×n'),'identity matrix i.e. the n × n-matrix containing 1 on the diagonal and 0 everywhere else')
         self.assertEqual(get_symbol_mean('\rightsquigarrow'),'a transformation of the augmented matrix using elementary transformations')
         self.assertEqual(get_symbol_mean('[A | b]'), 'The augmented matrix [A | b] compactly represents the system of linear equations Ax = b')
-
+    def test_set_symbols(self):
+        g = Handle_Sym_Abbre().get_symbol_meaning
+        self.assertEqual(g('span[b1 ]'),'Span (generating set) of b1')
+        self.assertEqual(g('span[A]n'),'Span (generating set) of b1')
+        self.assertEqual(g('span[x1,...,xk]'),'Span (generating set) of b1')
     def test_sym_properties(self):
         p = Handle_Sym_Abbre().get_sym_properties
         self.assertCountEqual(p('(V , +, ·)'), {'V': 'Vecotors', 'meaning': 'a set with two operations', 'neutral_element':

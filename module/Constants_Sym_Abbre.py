@@ -49,7 +49,7 @@ dim
 rk(A) 
 Im(Φ) 
 ker(Φ) 
-span[b1 ] 
+span\[.*\]
 tr(A) 
 det(A) 
 |·|
