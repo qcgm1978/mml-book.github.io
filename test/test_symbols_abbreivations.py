@@ -1,7 +1,7 @@
 import unittest
 # from utilities import getPath,parseNumber,update_json
 from module.Symbols_Abbreviations import *
-
+from module.latex import latex
 
 class TDD_SYMBOLS_ABBREIVATIONS(unittest.TestCase):
     @classmethod
@@ -79,8 +79,7 @@ class TDD_SYMBOLS_ABBREIVATIONS(unittest.TestCase):
         self.assertEqual(get_symbol_mean('G × G → G'),'sets G and inner|outer operations on G')
         self.assertEqual(get_symbol_mean('V×V→V'),'sets G and inner|outer operations on G')
         self.assertEqual(get_symbol_mean('R×V→V'),'sets G and inner|outer operations on G')
-        self.assertEqual(get_symbol_mean('∅'),'Empty set')
-        self.assertEqual(get_symbol_mean('U ⊆ V'),'a subspace U of V')
+        
     def test_matrix(self):
         get_symbol_mean = Handle_Sym_Abbre().get_symbol_meaning
         self.assertEqual(get_symbol_mean('(1, n)-matrices '),'rows/columns; row/column vectors')
@@ -102,12 +101,15 @@ class TDD_SYMBOLS_ABBREIVATIONS(unittest.TestCase):
         self.assertEqual(g('span[A]'),'Span (generating set) of b1')
         self.assertEqual(g('span[x1,...,xk]'),'Span (generating set) of b1')
         self.assertEqual(g('\subseteq'),'is subset of')
-        self.assertEqual(g('\subsetneq'),'A is a proper (or strict) subset of B')
+        self.assertEqual(g('U ⊆ V'),'a subspace U of V')
+        self.assertEqual(g('\subsetneq'), 'A is a proper (or strict) subset of B')
+        self.assertEqual(g('∅'),'Empty set')
     def test_sym_properties(self):
         p = Handle_Sym_Abbre().get_sym_properties
         self.assertCountEqual(p('(V , +, ·)'), {'V': 'Vecotors', 'meaning': 'a set with two operations', 'neutral_element':
                                                 '0 = [0, . . . , 0]⊤', 'inner_operation': '+ called vector addition', 'outer_operation': '· multiplication by scalars'})
-
+    def test_latex(self):
+        self.assertEqual(latex['\in'],'is member of')
 
 if __name__ == '__main__':
     unittest.main()
