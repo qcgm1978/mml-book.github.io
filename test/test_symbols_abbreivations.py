@@ -99,8 +99,10 @@ class TDD_SYMBOLS_ABBREIVATIONS(unittest.TestCase):
     def test_set_symbols(self):
         g = Handle_Sym_Abbre().get_symbol_meaning
         self.assertEqual(g('span[b1 ]'),'Span (generating set) of b1')
-        self.assertEqual(g('span[A]n'),'Span (generating set) of b1')
+        self.assertEqual(g('span[A]'),'Span (generating set) of b1')
         self.assertEqual(g('span[x1,...,xk]'),'Span (generating set) of b1')
+        self.assertEqual(g('\subseteq'),'is subset of')
+        self.assertEqual(g('\subsetneq'),'A is a proper (or strict) subset of B')
     def test_sym_properties(self):
         p = Handle_Sym_Abbre().get_sym_properties
         self.assertCountEqual(p('(V , +, ·)'), {'V': 'Vecotors', 'meaning': 'a set with two operations', 'neutral_element':

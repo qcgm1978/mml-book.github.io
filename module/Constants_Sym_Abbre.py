@@ -94,7 +94,9 @@ A · B
 Rn×n
 \rightsquigarrow
 \[[A-Z]\s*\|\s*[a-z]\]
-R_(n|\d)'''
+R_(n|\d)
+\subseteq
+\subsetneq'''
 Typical_meaning = '''Scalars are lowercase
 Vectors are bold lowercase
 Matrices are bold uppercase
@@ -176,4 +178,6 @@ multiplication (explicitly showing “·”)
 identity matrix i.e. the n × n-matrix containing 1 on the diagonal and 0 everywhere else
 a transformation of the augmented matrix using elementary transformations
 The augmented matrix [A | b] compactly represents the system of linear equations Ax = b
-indicate the nth Row'''
+indicate the nth Row
+is subset of
+A is a proper (or strict) subset of B'''
