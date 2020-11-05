@@ -70,7 +70,7 @@ class Linear_Algebra(object):
         if is_augumented:
             m = m[:,:-1]
         m=m.astype(np.int8)
-        basic, free = self.get_Basic_Free(m)
+        basic, free,_ = self.get_Basic_Free(m)
         ind_free = list(map(lambda item: int(
             re.search(r'\d+$', item).group()) - 1, free))
         sol = np.zeros((len(ind_free), m.shape[1]), dtype=np.int8)
@@ -171,11 +171,37 @@ class Linear_Algebra(object):
                     if is_last and v not in Basic:
                         Free.append(v)
         return Basic, Free,m
+    @staticmethod
+    def gen_ele(n, m=1):
+        power = 4
+        r = np.random.randint(2**-power-1,
+                                2**power-1, (m, n))
+        p = np.random.randint(2**-power-1, 2**power-1)
+        return (r ** 10 ** p).round()
 
-    def is_Abelian(self, gen_ele, get_inv, is_ele, get_e, op, m=1):
+    @staticmethod
+    def get_inv(x):
+        return - x
+
+    @staticmethod
+    def is_ele(ele):
+        return ele.dtype == 'int64'
+
+    @staticmethod
+    def get_e(Zn):
+        return np.zeros(len(Zn[0]))
+    def is_Abelian(self, gen_ele=None,is_ele=None, get_e=None, m=1,  op=np.dot, get_inv=None):
+        if gen_ele is None:
+            gen_ele=self.gen_ele
+        if get_inv is None:
+            get_inv=self.get_inv
+        if is_ele is None:
+            is_ele=self.get_inv
+        if get_e is None:
+            get_e=self.get_e
         n = m
         is_group = self.is_group(
-            gen_ele, get_inv, is_ele, get_e, op, m=m, n=n, has_inverse=None)
+            gen_ele=gen_ele, get_inv=get_inv,  get_e=get_e, op=op, m=m, n=n, has_inverse=None,is_ele=is_ele)
         x = gen_ele(n, m)
         y = gen_ele(n, m)
         is_commutative = ~((op(x, y) - op(y, x))).any()
@@ -186,7 +212,15 @@ class Linear_Algebra(object):
         n = np.random.randint(2, np.log2(max_int64))
         return n
 
-    def is_group(self, gen_ele, get_inv, is_ele, get_e, op, m=1, n=None, has_inverse=None):
+    def is_group(self, gen_ele=None, is_ele=None, n=None, has_inverse=None, m=1, op=np.add, get_inv=None,get_e=None):
+        if get_e is None:
+            get_e=self.get_e
+        if gen_ele is None:
+            gen_ele = self.gen_ele
+        if get_inv is None:
+            get_inv=self.get_inv
+        if is_ele is None:
+            is_ele=self.is_ele
         # 1. Closure of G under ⊗: ∀x, y∈G: x⊗y∈G
         # 2. Associativity:∀x,y,z∈G:(x⊗y)⊗z=x⊗(y⊗z)
         # 3. Neutral element: ∃e∈G ∀x∈G: x⊗e=x and e⊗x=x
@@ -199,7 +233,7 @@ class Linear_Algebra(object):
         y = gen_ele(n, m)
         z = gen_ele(n, m)
         inv = get_inv(x)
-        e = get_e(x)
+        e = self.get_e(x)
         is_closure = is_ele(op(x, y))
         round1 = np.array(
             list(map(lambda item: item.round(), op(op(x, y), z))))

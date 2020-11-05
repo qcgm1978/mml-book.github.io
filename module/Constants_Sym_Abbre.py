@@ -96,7 +96,8 @@ Rn×n
 \[[A-Z]\s*\|\s*[a-z]\]
 R_(n|\d)
 \subseteq
-\subsetneq'''
+\subsetneq
+Φ : V -> W'''
 Typical_meaning = '''Scalars are lowercase
 Vectors are bold lowercase
 Matrices are bold uppercase
@@ -180,4 +181,5 @@ a transformation of the augmented matrix using elementary transformations
 The augmented matrix [A | b] compactly represents the system of linear equations Ax = b
 indicate the nth Row
 is subset of
-A is a proper (or strict) subset of B'''
+A is a proper (or strict) subset of B
+a linear mapping (or vector space homomorphism/ linear transformation)'''

@@ -27,26 +27,11 @@ class TDD_GROUP_THEORY(unittest.TestCase):
         self.assertEqual(neg_Rn.tolist(), [-1, -2, -3])
         self.assertEqual((Rn+neg_Rn).tolist(), e.tolist())
 
-        def gen_ele(n, m=1):
-            power = 4
-            r = np.random.randint(2**-power-1,
-                                  2**power-1, (m, n))
-            p = np.random.randint(2**-power-1, 2**power-1)
-            return (r ** 10 ** p).round()
-
-        def get_inv(x):
-            return - x
-
-        def is_ele(ele):
-            return ele.dtype == 'int64'
-
-        def get_e(Zn):
-            return np.zeros(len(Zn[0]))
-        op = np.add
+        
         # (Rn , +), (Zn , +), n ∈ N are Abelian if + is defined componentwise
         la = Linear_Algebra()
-        is_group = la.is_group(gen_ele, get_inv, is_ele, get_e, op)
-        is_Abelian = la.is_group(gen_ele, get_inv, is_ele, get_e, op)
+        is_group = la.is_group()
+        is_Abelian = la.is_group()
         self.assertTrue(is_group)
         self.assertTrue(is_Abelian)
 
@@ -59,8 +44,8 @@ class TDD_GROUP_THEORY(unittest.TestCase):
         def is_ele(ele):
             return ele.dtype == 'float64'
         # (Rn , +), (Zn , +), n ∈ N are Abelian if + is defined componentwise
-        is_group = la.is_group(gen_ele, get_inv, is_ele, get_e, op)
-        is_Abelian = la.is_group(gen_ele, get_inv, is_ele, get_e, op)
+        is_group = la.is_group(gen_ele=gen_ele, is_ele=is_ele)
+        is_Abelian = la.is_group(gen_ele=gen_ele, is_ele=is_ele)
         self.assertTrue(is_group)
         self.assertTrue(is_group)
         # (Rm×n , +), the set of m × n-matrices is Abelian (with componentwise addition
@@ -72,12 +57,11 @@ class TDD_GROUP_THEORY(unittest.TestCase):
             return r
         power = 8
         m=np.random.randint(2**-power-1,2**power-1)
-        is_group = la.is_group(gen_ele, get_inv, is_ele, get_e, op, m=m)
+        is_group = la.is_group(gen_ele, is_ele, m=m)
         # If the inverse exists (A is regular), then A−1 is the inverse element of A ∈ Rn×n , and in exactly this case (Rn×n , ·) is a group, called the general linear group
-        op = np.dot
         def get_e(x):
             return np.eye(x.shape[0])
-        is_Abelian = la.is_Abelian(gen_ele, get_inv, is_ele, get_e, op,m=m)
+        is_Abelian = la.is_Abelian(gen_ele, is_ele, get_e,m=m)
         self.assertTrue(is_group)
         self.assertFalse(is_Abelian)
         inv = la.get_invtible()

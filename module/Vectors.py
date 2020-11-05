@@ -1,8 +1,12 @@
-import math,re
+import math,re,numpy as np
 from sympy import symbols,lambdify,sqrt
 from module.Linear_Algebra import Linear_Algebra
 
 class Vectors(Linear_Algebra):
+    def get_vec(self,b,target):
+        ret=np.dot(b,np.vstack(target))
+        return ret
+
     # The non-pivot columns can be expressed as linear combinations of the pivot columns on their left.
     def get_linear_combination(self, m):
         B, F,m = self.get_Basic_Free(m)

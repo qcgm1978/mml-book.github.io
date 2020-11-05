@@ -97,19 +97,26 @@ class TDD_SYMBOLS_ABBREIVATIONS(unittest.TestCase):
         self.assertEqual(get_symbol_mean('[A | b]'), 'The augmented matrix [A | b] compactly represents the system of linear equations Ax = b')
     def test_set_symbols(self):
         g = Handle_Sym_Abbre().get_symbol_meaning
-        self.assertEqual(g('span[b1 ]'),'Span (generating set) of b1')
+        self.assertEqual(g('span[b1 ]'), 'Span (generating set) of b1')
         self.assertEqual(g('span[A]'),'Span (generating set) of b1')
         self.assertEqual(g('span[x1,...,xk]'),'Span (generating set) of b1')
         self.assertEqual(g('\subseteq'),'is subset of')
         self.assertEqual(g('U ⊆ V'),'a subspace U of V')
         self.assertEqual(g('\subsetneq'), 'A is a proper (or strict) subset of B')
-        self.assertEqual(g('∅'),'Empty set')
+        self.assertEqual(g('∅'), 'Empty set')
+    def test_linear(self):
+        g = Handle_Sym_Abbre().get_symbol_meaning
+        self.assertEqual(g('Φ : V -> W'),'a linear mapping (or vector space homomorphism/ linear transformation)')
     def test_sym_properties(self):
         p = Handle_Sym_Abbre().get_sym_properties
         self.assertCountEqual(p('(V , +, ·)'), {'V': 'Vecotors', 'meaning': 'a set with two operations', 'neutral_element':
                                                 '0 = [0, . . . , 0]⊤', 'inner_operation': '+ called vector addition', 'outer_operation': '· multiplication by scalars'})
     def test_latex(self):
         self.assertEqual(latex['\in'],'is member of')
-
+    def test_op(self):
+        p = Handle_Sym_Abbre().get_symbol_meaning
+        self.assertEqual(p('=⇒'),'Implies')
+        self.assertEqual(p('g◦f'),'Function composition: “g after f ”')
+        
 if __name__ == '__main__':
     unittest.main()
