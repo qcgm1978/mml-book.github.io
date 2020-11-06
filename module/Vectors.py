@@ -28,7 +28,6 @@ class Vectors(Linear_Algebra):
         b,c,cosA = symbols('b c cosA')
         f = sqrt(b**2 + c**2 - 2*b*c*cosA)
         fLam = lambdify('b,c,cosA',f)
-        f
         cos = math.cos(A)
         return fLam(s1,s2,cos)
         # s='sqrt(b^2 + c^2 − 2bc * cosA)'

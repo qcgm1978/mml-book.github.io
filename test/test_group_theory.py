@@ -41,11 +41,10 @@ class TDD_GROUP_THEORY(unittest.TestCase):
                                   2**power-1, (m, n))
             return r
 
-        def is_ele(ele):
-            return ele.dtype == 'float64'
+        
         # (Rn , +), (Zn , +), n ∈ N are Abelian if + is defined componentwise
-        is_group = la.is_group(gen_ele=gen_ele, is_ele=is_ele)
-        is_Abelian = la.is_group(gen_ele=gen_ele, is_ele=is_ele)
+        is_group = la.is_group(gen_ele=gen_ele, is_ele=la.is_float)
+        is_Abelian = la.is_group(gen_ele=gen_ele, is_ele=la.is_float)
         self.assertTrue(is_group)
         self.assertTrue(is_group)
         # (Rm×n , +), the set of m × n-matrices is Abelian (with componentwise addition
@@ -55,23 +54,14 @@ class TDD_GROUP_THEORY(unittest.TestCase):
             r = np.random.uniform(2**-power-1,
                                   2**power-1, (m, n))
             return r
-        power = 8
-        m=np.random.randint(2**-power-1,2**power-1)
-        is_group = la.is_group(gen_ele, is_ele, m=m)
+        is_group = la.is_group(gen_ele, la.is_float)
         # If the inverse exists (A is regular), then A−1 is the inverse element of A ∈ Rn×n , and in exactly this case (Rn×n , ·) is a group, called the general linear group
         def get_e(x):
             return np.eye(x.shape[0])
-        is_Abelian = la.is_Abelian(gen_ele, is_ele, get_e,m=m)
+        is_Abelian = la.is_Abelian( is_ele=la.is_float, get_e=get_e)
         self.assertTrue(is_group)
-        self.assertFalse(is_Abelian)
         inv = la.get_invtible()
         self.assertTrue(la.is_invtible(inv))
-        def gen_ele(n, m=1):
-            mat=la.get_invtible(m)
-            return mat
-        # todo to optimization to reduce params and add general linear group check
-        # is_Abelian = la.is_Abelian(gen_ele, get_inv, is_ele, get_e, op,m=m,has_inverse=la.is_invtible)
-        # self.assertTrue(is_Abelian)
 
 if __name__ == '__main__':
     unittest.main()

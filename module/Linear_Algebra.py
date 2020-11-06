@@ -5,7 +5,9 @@ import numpy as np
 
 class Linear_Algebra(object):
     underlie = 'vector space'
-
+    def __init__(self):
+        power = 8
+        self.m=np.random.randint(2**-power-1,2**power-1)
     @property
     def vectors(self):
         vectors = {
@@ -57,7 +59,6 @@ class Linear_Algebra(object):
                     except ValueError:
                         ele=it
                     ret[-1].append(ele)
-        print(ret)
         return ret
     def get_REF(self, augmented_m):
         if isinstance(augmented_m, str):
@@ -97,7 +98,6 @@ class Linear_Algebra(object):
         vectors = '+'.join(s)
         cols = vectors+eles
         latex = pre+cols+post
-        print(latex)
         return latex
     # It is in row-echelon form.
     # Every pivot is 1.
@@ -186,26 +186,27 @@ class Linear_Algebra(object):
     @staticmethod
     def is_ele(ele):
         return ele.dtype == 'int64'
-
+    @staticmethod
+    def is_float(ele):
+            return ele.dtype == 'float64'
     @staticmethod
     def get_e(Zn):
         return np.zeros(len(Zn[0]))
-    def is_Abelian(self, gen_ele=None,is_ele=None, get_e=None, m=1,  op=np.dot, get_inv=None):
-        if gen_ele is None:
-            gen_ele=self.gen_ele
-        if get_inv is None:
-            get_inv=self.get_inv
-        if is_ele is None:
-            is_ele=self.get_inv
-        if get_e is None:
-            get_e=self.get_e
+        
+    def is_Abelian(self, **kwarg):
+        m = kwarg['m'] if 'm' in kwarg else self.m
+        op=kwarg['op'] if 'op' in kwarg else self.op
+        gen_ele=kwarg['gen_ele'] if 'gen_ele' in kwarg else self.gen_ele
+        
         n = m
         is_group = self.is_group(
-            gen_ele=gen_ele, get_inv=get_inv,  get_e=get_e, op=op, m=m, n=n, has_inverse=None,is_ele=is_ele)
+            **kwarg)
         x = gen_ele(n, m)
         y = gen_ele(n, m)
-        is_commutative = ~((op(x, y) - op(y, x))).any()
-        return is_group and is_commutative
+        # ∀x,y∈G:x⊗y=y⊗x,then G=(G,⊗)is an Abelian group (commutative)
+        data = op(x, y) - op(y, x)
+        is_commutative=data[:]< 1e-7
+        return is_group and is_commutative 
 
     def get_limit(self):
         max_int64 = 9223372036854775807
@@ -221,14 +222,14 @@ class Linear_Algebra(object):
             get_inv=self.get_inv
         if is_ele is None:
             is_ele=self.is_ele
+        if has_inverse is None:
+            has_inverse = self.has_inverse
         # 1. Closure of G under ⊗: ∀x, y∈G: x⊗y∈G
         # 2. Associativity:∀x,y,z∈G:(x⊗y)⊗z=x⊗(y⊗z)
         # 3. Neutral element: ∃e∈G ∀x∈G: x⊗e=x and e⊗x=x
         # 4. Inverse element:∀x∈G ∃y∈G: x⊗y=e and y⊗x=e
         if n is None:
             n = self.get_limit()
-        if has_inverse is None:
-            has_inverse = self.has_inverse
         x = gen_ele(n, m)
         y = gen_ele(n, m)
         z = gen_ele(n, m)
@@ -244,8 +245,8 @@ class Linear_Algebra(object):
         has_inverse = has_inverse(x, inv, e)
         meet_condition = is_closure and is_associa and has_neutral and has_inverse
         return meet_condition
-
-    def has_inverse(self, x, inv, e):
+    @staticmethod
+    def has_inverse( x, inv, e):
         op = np.add
         return ~(op(x, inv) - e).any() and ~(op(inv, x) - e).any()
 

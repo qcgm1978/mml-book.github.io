@@ -1,5 +1,6 @@
 import unittest
 import numpy as np
+from scipy.optimize import fsolve
 # from utilities import getPath,parseNumber,update_json
 from module.Vectors import Vectors
 
@@ -28,10 +29,39 @@ class TDD_LINEAR_INDEPENDENCE(unittest.TestCase):
         target = [2, 3]
         self.assertEqual(
             v.get_vec(standardBasis, target).tolist(), [[2], [3]])
-        self.assertEqual(altBasis.tolist(),[[1,1],[-1,1]])
-        self.assertEqual(np.linalg.solve(altBasis,target).tolist(),[-1/2,5/2])
-        self.assertEqual(np.linalg.solve(altBasis,target).tolist(),[-1/2,5/2])
-        self.assertEqual(v.get_solutions(altBasis,target),[-1/2,5/2])
+        self.assertEqual(altBasis.tolist(), [[1, 1], [-1, 1]])
+        self.assertEqual(np.linalg.solve(
+            altBasis, target).tolist(), [-1/2, 5/2])
+        self.assertEqual(np.linalg.solve(
+            altBasis, target).tolist(), [-1/2, 5/2])
+        # self.assertEqual(v.get_solutions(altBasis, target), [-1 / 2, 5 / 2])
+
+    def test_Abelian(self):
+        # a⋆b := ab+a+b, a,b ∈ R\{−1}
+        l = Vectors()
+
+        def get_e(x):
+            return np.eye(x.shape[0])
+
+        def gen_ele(n, m=1):
+            limit = l.get_limit()
+            if n is None:
+                n = limit
+            data = np.random.uniform(-limit, limit, (1, 1))
+            data[data == 1] = 2
+            return data
+        def op(x, y):
+            return x * y + x + y
+        def has_inverse( *args):
+            # ab+a+b=1 has R\{−1} solution
+            def func(x):
+                return [x[0] * x[1]+x[0]+x[1] - 1,
+                        0]
+            root = fsolve(func, [1, 1])
+            return len(root) and -1 not in root
+        is_Abelian = l.is_Abelian(
+            is_ele=l.is_float, get_e=get_e, gen_ele=gen_ele,op=op,has_inverse=has_inverse)
+        self.assertTrue(is_Abelian)
 
 
 if __name__ == '__main__':
