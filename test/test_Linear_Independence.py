@@ -62,7 +62,14 @@ class TDD_LINEAR_INDEPENDENCE(unittest.TestCase):
         is_Abelian = l.is_Abelian(
             is_ele=l.is_float, get_e=get_e, gen_ele=gen_ele,op=op,has_inverse=has_inverse)
         self.assertTrue(is_Abelian)
-
+        def solve():
+            def func(x):
+                return [x[0] * x[1]+x[0]+x[1] - x[2],
+                        3*x[2]+x[2]+3-15,0]
+            root = fsolve(func, [1, 1,1])
+            if - 1 not in root:
+                return root
+        self.assertFalse((solve()-[1,1,1]).any())
 
 if __name__ == '__main__':
     unittest.main()
