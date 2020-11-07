@@ -1,8 +1,10 @@
+from module.Vectors import Vectors
 import unittest
 import numpy as np
 from scipy.optimize import fsolve
+import warnings
+warnings.filterwarnings('ignore', 'The iteration is not making good progress')
 # from utilities import getPath,parseNumber,update_json
-from module.Vectors import Vectors
 
 
 class TDD_LINEAR_INDEPENDENCE(unittest.TestCase):
@@ -50,31 +52,49 @@ class TDD_LINEAR_INDEPENDENCE(unittest.TestCase):
             data = np.random.uniform(-limit, limit, (1, 1))
             data[data == 1] = 2
             return data
+
         def op(x, y):
             return x * y + x + y
-        def has_inverse( *args):
+
+        def has_inverse(*args):
             # ab+a+b=1 has R\{−1} solution
             def func(x):
                 return [x[0] * x[1]+x[0]+x[1] - 1,
                         0]
             root = fsolve(func, [1, 1])
             return len(root) and -1 not in root
+
         def is_ele(ele):
             def func(x):
                 return [x[0] * x[1]+x[0]+x[1] + 1,
                         0]
             root = fsolve(func, [1, 1])
-            return -1 in root
-        is_Abelian = l.is_Abelian( get_e=get_e, gen_ele=gen_ele,op=op,has_inverse=has_inverse,is_ele=is_ele)
+            return - 1 in root
+
+        def associa(x, y, z):
+            def func(p):
+                return [p[0] * p[1]+p[0]+p[1] + x,
+                        0]
+            root = fsolve(func, [1, 1])
+
+            def func1(p):
+                return [p[1] * p[0]+p[1]+p[0] + x, 0]
+            root1 = fsolve(func1, [1, 1])
+            same_sols = ~(root-root1).any()
+            return same_sols 
+        is_Abelian = l.is_Abelian(get_e=get_e, gen_ele=gen_ele, op=op,
+                                  has_inverse=has_inverse, is_ele=is_ele, associa=associa)
         self.assertTrue(is_Abelian)
+
         def solve():
             def func(x):
                 return [x[0] * x[1]+x[0]+x[1] - x[2],
-                        3*x[2]+x[2]+3-15,0]
-            root = fsolve(func, [1, 1,1])
+                        3*x[2]+x[2]+3-15, 0]
+            root = fsolve(func, [1, 1, 1])
             if - 1 not in root:
                 return root
-        self.assertFalse((solve()-[1,1,1]).any())
+        self.assertFalse((solve()-[1, 1, 1]).any())
+
 
 if __name__ == '__main__':
     unittest.main()

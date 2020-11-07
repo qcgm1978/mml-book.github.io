@@ -214,7 +214,7 @@ class Linear_Algebra(object):
         n = np.random.randint(2, np.log2(max_int64))
         return n
 
-    def is_group(self, gen_ele=None, is_ele=None, n=None, has_inverse=None, m=1, op=np.add, get_inv=None,get_e=None):
+    def is_group(self, gen_ele=None, is_ele=None, n=None, has_inverse=None, m=1, op=np.add, get_inv=None,get_e=None,associa=None):
         if get_e is None:
             get_e=self.get_e
         if gen_ele is None:
@@ -237,11 +237,14 @@ class Linear_Algebra(object):
         inv = get_inv(x)
         e = self.get_e(x)
         is_closure = is_ele(op(x, y))
-        round1 = np.array(
-            list(map(lambda item: item.round(), op(op(x, y), z))))
-        round2 = np.array(
-            list(map(lambda item: item.round(), op(x, op(y, z)))))
-        is_associa = ~(round1 - round2).any()
+        if callable(associa):
+            is_associa =associa(x,y,z)
+        else:
+            round1 = np.array(
+                list(map(lambda item: item.round(), op(op(x, y), z))))
+            round2 = np.array(
+                list(map(lambda item: item.round(), op(x, op(y, z)))))
+            is_associa = ~(round1 - round2).any()
         has_neutral = self.has_inverse(x, e, x)
         has_inverse = has_inverse(x, inv, e)
         meet_condition = is_closure and is_associa and has_neutral and has_inverse
