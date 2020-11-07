@@ -59,8 +59,13 @@ class TDD_LINEAR_INDEPENDENCE(unittest.TestCase):
                         0]
             root = fsolve(func, [1, 1])
             return len(root) and -1 not in root
-        is_Abelian = l.is_Abelian(
-            is_ele=l.is_float, get_e=get_e, gen_ele=gen_ele,op=op,has_inverse=has_inverse)
+        def is_ele(ele):
+            def func(x):
+                return [x[0] * x[1]+x[0]+x[1] + 1,
+                        0]
+            root = fsolve(func, [1, 1])
+            return -1 in root
+        is_Abelian = l.is_Abelian( get_e=get_e, gen_ele=gen_ele,op=op,has_inverse=has_inverse,is_ele=is_ele)
         self.assertTrue(is_Abelian)
         def solve():
             def func(x):

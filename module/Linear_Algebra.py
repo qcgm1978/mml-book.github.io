@@ -5,6 +5,7 @@ import numpy as np
 
 class Linear_Algebra(object):
     underlie = 'vector space'
+    op=np.add
     def __init__(self):
         power = 8
         self.m=np.random.randint(2**-power-1,2**power-1)
