@@ -43,7 +43,7 @@ class TDD_LINEAR_INDEPENDENCE(unittest.TestCase):
         l = Vectors()
 
         def get_e(x):
-            return np.eye(x.shape[0])
+            return np.zeros(x.shape[0])
 
         def gen_ele(n, m=1):
             limit = l.get_limit()
@@ -59,8 +59,10 @@ class TDD_LINEAR_INDEPENDENCE(unittest.TestCase):
         def has_inverse(*args):
             # ab+a+b=1 has R\{−1} solution
             def func(x):
-                return [x[0] * x[1]+x[0]+x[1] - 1,
-                        0]
+                x = list(map(lambda item: item.astype(float), x))
+                return [
+                    x[0] * ((x[0]+1)**-1-1)+x[0]+(x[0]+1)**-1-1,
+                    0]
             root = fsolve(func, [1, 1])
             return len(root) and -1 not in root
 
@@ -81,19 +83,21 @@ class TDD_LINEAR_INDEPENDENCE(unittest.TestCase):
                 return [p[1] * p[0]+p[1]+p[0] + x, 0]
             root1 = fsolve(func1, [1, 1])
             same_sols = ~(root-root1).any()
-            return same_sols 
+            return same_sols
+
         is_Abelian = l.is_Abelian(get_e=get_e, gen_ele=gen_ele, op=op,
                                   has_inverse=has_inverse, is_ele=is_ele, associa=associa)
         self.assertTrue(is_Abelian)
 
         def solve():
-            def func(x):
-                return [x[0] * x[1]+x[0]+x[1] - x[2],
-                        3*x[2]+x[2]+3-15, 0]
-            root = fsolve(func, [1, 1, 1])
-            if - 1 not in root:
-                return root
-        self.assertFalse((solve()-[1, 1, 1]).any())
+            x, y = l.get_sym_var('x, y')
+            root = l.solve_nonlinear([3 * x+3+x - y, x*y+x+y-15], [x, y])
+            x_sols = list(map(lambda item: item[0], root))
+
+            return sorted(list(filter(lambda item: item != -1, x_sols)))
+
+        root = solve()
+        self.assertEqual(root, [-3, 1])
 
 
 if __name__ == '__main__':

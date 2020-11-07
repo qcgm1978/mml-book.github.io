@@ -1,7 +1,8 @@
 import sys
 import re
 import numpy as np
-
+from sympy.core.symbol import symbols
+from sympy.solvers.solveset import nonlinsolve
 
 class Linear_Algebra(object):
     underlie = 'vector space'
@@ -213,7 +214,13 @@ class Linear_Algebra(object):
         max_int64 = 9223372036854775807
         n = np.random.randint(2, np.log2(max_int64))
         return n
-
+    @staticmethod
+    def solve_nonlinear(*args):
+        return nonlinsolve(*args)
+    @staticmethod
+    def get_sym_var(s):
+        x, y = symbols(s, real=True)
+        return x, y
     def is_group(self, gen_ele=None, is_ele=None, n=None, has_inverse=None, m=1, op=np.add, get_inv=None,get_e=None,associa=None):
         if get_e is None:
             get_e=self.get_e
@@ -245,13 +252,12 @@ class Linear_Algebra(object):
             round2 = np.array(
                 list(map(lambda item: item.round(), op(x, op(y, z)))))
             is_associa = ~(round1 - round2).any()
-        has_neutral = self.has_inverse(x, e, x)
+        has_neutral = self.has_inverse(x, e, x,op)
         has_inverse = has_inverse(x, inv, e)
         meet_condition = is_closure and is_associa and has_neutral and has_inverse
         return meet_condition
     @staticmethod
-    def has_inverse( x, inv, e):
-        op = np.add
+    def has_inverse( x, inv, e,op = np.add):
         return ~(op(x, inv) - e).any() and ~(op(inv, x) - e).any()
 
     def get_invtible(self, n=None):
