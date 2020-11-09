@@ -62,6 +62,7 @@ class TDD_GROUP_THEORY(unittest.TestCase):
         self.assertTrue(is_group)
         inv = la.get_invtible()
         self.assertTrue(la.is_invtible(inv))
-
+    def test_congruence_classes_modulo(self):
+        
 if __name__ == '__main__':
     unittest.main()
