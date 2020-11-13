@@ -1,10 +1,5 @@
 import math
 import numpy as np
-from sympy.core.symbol import symbols
-from sympy.solvers.solveset import nonlinsolve
-from sympy import solveset, S,Poly
-from sympy.solvers.inequalities import solve_rational_inequalities,reduce_rational_inequalities
-import mystic.symbolic as ms
 class Analatic_Geometry(object):
     def is_symmetric(self, A, B=None):
         A = np.array(A)
