@@ -9,7 +9,9 @@ class TDD_ANALATIC_GEOMETRY(unittest.TestCase):
         A1 = [9, 6, 6, 5]
         A2=[9,6,6,3]
         self.assertTrue(a.is_symmetric(A1))
+        self.assertTrue(a.is_symmetric(A2))
         self.assertTrue(a.is_pos_definite(A1))
+        self.assertFalse(a.is_pos_definite(A2))
 if __name__ == '__main__':
     unittest.main()
                 
