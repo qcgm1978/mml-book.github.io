@@ -1,7 +1,7 @@
 {
     "code-runner.executorMap": {
         // "python": "$pythonPath  -u  -W ignore::DeprecationWarning -m test.test_Introduction_Motivation",
-        "python": "$pythonPath  -u  -W ignore::DeprecationWarning -m test.test_Linear_Independence"
+        "python": "$pythonPath  -u  -W ignore::DeprecationWarning -m test.test_Analatic_Geometry"
     },
     "python.testing.unittestArgs": [
         "-v",
