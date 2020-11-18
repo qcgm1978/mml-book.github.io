@@ -28,7 +28,7 @@
             "name": "Process 2",
             "type": "python",
             "request": "launch",
-            "module": "test.test_decision_tree",
+            "module": "test.Linear_Algebra.test_Linear_Algebra",
             "console": "integratedTerminal"
 
         }
